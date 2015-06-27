@@ -11,10 +11,10 @@ board.on('ready', function() {
   // the physical slider 
   slider.scale([0, 100]).on('slide', function() {
 
-  	if (this.value > 0.5) {
+    if (this.value > 0.5) {
       led.on();
       console.log('on:', this.value);
-  	} else {
+    } else {
       led.off();
       console.log('off:', this.value);
     }

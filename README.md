@@ -1,30 +1,31 @@
 # Slider & LED
 
-This small project shows how to switch on/off a LED by evaluating the signal of a slider used as a commander.
+This small IoT project (Internet Of Things) shows how to switch on/off a LED by evaluating the signal of a slider used as a commander.
 
 ## Hardware
 
 You need:
-- _Arduino Uno R3_;
-- _LED_ on the pins `GND` and `13`;
-- _slider_ on the pins `A0` (the signal) and the couple `5V` and `GND` for the power supply.
+- __Arduino Uno R3__;
+- __LED__ on the pins `GND` and `13`;
+- __slider__ on the pins `A0` (the signal) and the couple `5V` and `GND` for the power supply.
 
 The slider I've been using is a `Bourns Inc. PTA6043-2015DPB103 POTENTIOMETER, SLIDE, 10K, 20%, 0.25W`. From the datasheet you could find out:
 - Pin 2: the slide gang;
 - Pin 1, 3: GND and 5V.
+You can find the PDF datasheet here at the [Bourns website](http://www.bourns.com/data/global/pdfs/pta.pdf). 
 
 ## Software
 
-The source code is written in javascript for the _Node.js_ platform. The main library is [Johnny-Five](http://johnny-five.io).
+The source code is written in javascript for the __Node.js__ platform. The main library is [Johnny-Five](http://johnny-five.io).
 
 To get started you need:
-* The Arduino IDE running the _Firmata_ package (File -> Example -> Firmata -> StandardFirmata);
-* Check that the Arduino board is properly _connected via USB_ to your computer (under linux run `lsusb | grep Arduino` on the command line to check the board is connected and running);
+* The Arduino IDE running the __Firmata__ package (File -> Example -> Firmata -> StandardFirmata);
+* Check that the Arduino board is properly __connected via USB__ to your computer (under linux run `lsusb | grep Arduino` on the command line to check the board is connected and running);
 * Select the Arduino UNO board from the IDE (Tools -> Board -> Arduino UNO);
 * Select the COM port from the IDE (Tools -> Serial Port -> /dev/ttyACM0);
 * Upload the Firmata source code to the board via the Arduino IDE clicking on the Upload button.
 
-At this point the Node.js code running on your laptop (basically the Johnny-Five _npm_ module) will use the Firmata code running on the board as an API.
+At this point the Node.js code running on your laptop (basically the Johnny-Five __npm__ module) will use the Firmata code running on the board as an API.
 
 From the command line you should be able to run the source code using the `node` command:
 ```
@@ -50,7 +51,7 @@ $
 
 ## Images
 
-The schematic and the breadboard schema have been generated using _Fritzing_ (you can load the `.fzz` file from the `doc` folder).
+The schematic and the breadboard schema have been generated using __Fritzing__ (you can load the `.fzz` file from the `doc` folder).
 
 ### The real example
 ![The setup](/doc/ArduinoUno_Slider_LED.jpg)
