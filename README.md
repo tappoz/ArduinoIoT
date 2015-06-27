@@ -55,13 +55,13 @@ $
 The schematic and the breadboard schema have been generated using __Fritzing__ (you can load the `.fzz` file from the `doc` folder).
 
 ### The breadboard schema
-[[/doc/ArduinoUno_Slider_LED_bb.png|width=400px]]
+![Breadboard schema](/doc/ArduinoUno_Slider_LED_bb.png)
 
 ### The schematic
-[[/doc/ArduinoUno_Slider_LED_schem.png|width=400px]]
+![Schematic](/doc/ArduinoUno_Slider_LED_schem.png)
 
 ### The real example
-[[/doc/ArduinoUno_Slider_LED.jpg|width=400px]]
+![Real picture](/doc/ArduinoUno_Slider_LED.jpg)
 
 
 # Acknowledgment
