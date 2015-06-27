@@ -12,6 +12,7 @@ You need:
 The slider I've been using is a `Bourns Inc. PTA6043-2015DPB103 POTENTIOMETER, SLIDE, 10K, 20%, 0.25W`. From the datasheet you could find out:
 - Pin 2: the slide gang;
 - Pin 1, 3: GND and 5V.
+
 You can find the PDF datasheet here at the [Bourns website](http://www.bourns.com/data/global/pdfs/pta.pdf). 
 
 ## Software
