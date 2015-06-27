@@ -13,8 +13,6 @@ The slider I've been using is a `Bourns Inc. PTA6043-2015DPB103 POTENTIOMETER, S
 - Pin 2: the slide gang;
 - Pin 1, 3: GND and 5V.
 
-![The setup](/doc/ArduinoUno_Slider_LED.jpg)
-
 ## Software
 
 The source code is written in javascript for the _Node.js_ platform. The main library is [Johnny-Five](http://johnny-five.io).
@@ -49,3 +47,20 @@ off: 0.2932551319648094
 1435411290860 Board Closing. 
 $
 ```
+
+## Images
+
+The schematic and the breadboard schema have been generated using _Fritzing_ (you can load the `.fzz` file from the `doc` folder).
+
+### The real example
+![The setup](/doc/ArduinoUno_Slider_LED.jpg)
+
+### The schematic
+![Schematic](/doc/ArduinoUno_Slider_LED_schem.png)
+
+### The breadboard schema
+![Breadboard](/doc/ArduinoUno_Slider_LED_bb.png)
+
+# Acknowledgment
+
+A big thank you to the guys of the [NodeBots of London meetup](http://www.meetup.com/NodeBots-of-London) for organising the hacklab I've been to in June 2015.
