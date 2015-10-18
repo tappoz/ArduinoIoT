@@ -1,0 +1,29 @@
+$ platformio boards uno
+
+Platform: atmelavr
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+Type                  MCU            Frequency  Flash   RAM    Name
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+uno                   atmega328p     16Mhz     31Kb    2Kb    Arduino Uno
+sparkfun_digitalsandbox atmega328p     16Mhz     31Kb    2Kb    SparkFun Digital Sandbox
+uview                 atmega328p     16Mhz     31Kb    2Kb    SparkFun MicroView
+sparkfun_redboard     atmega328p     16Mhz     31Kb    2Kb    SparkFun RedBoard
+tappoz@my-laptop:~$
+
+
+$ platformio lib search rf24
+Found 1 libraries:
+
+[ ID  ] Name             Compatibility         "Authors": Description
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+[ 433 ] RF24             arduino, atmelavr, atmelsam, teensy "TMRh20": Optimized High Speed Driver for nRF24L01(+) 2.4GHz Wireless Transceiver
+
+
+$ platformio lib install 433
+Installing library [ 433 ]:
+Downloading  [####################################]  100%
+Unpacking  [####################################]  100%
+The library #433 'RF24' has been successfully installed!
+
+
+
