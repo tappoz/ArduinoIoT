@@ -1,34 +1,47 @@
 #include <SPI.h>
+#include "nRF24L01.h"
 #include "RF24.h"
+
+// it prints the details of the nRF24 board
+// to not use it just comment out "printf_begin()"
+#include "printf.h"
 
 #define CE_PIN   9
 #define CSN_PIN 10
 
 int msg[1];
-RF24 radio(CE_PIN,CSN_PIN);
+RF24 rxRadio(CE_PIN,CSN_PIN);
 const uint64_t pipe = 0xE8E8F0F0E1LL;
-int LED1 = 3;
+const int LED1 = 3;
+
+// the receiver should sample every 1 second
+const int SAMPLING_INTERVAL_MS = 1000;
 
 void setup(void){
   Serial.begin(9600);
-  radio.begin();
-  radio.openReadingPipe(1,pipe);
-  radio.startListening();
+  rxRadio.begin();
+  rxRadio.openReadingPipe(1,pipe);
+  rxRadio.startListening();
   pinMode(LED1, OUTPUT);
+  // print the configuration of the transmitter unit
+  rxRadio.printDetails();
 }
 
-void loop(void){
-  if (radio.available()) {
-    while (radio.available()) {
-      radio.read(msg, 1);
-      Serial.println(msg[0]);
-      if (msg[0] == 111){
+void loop(void) {
+  digitalWrite(LED1, LOW);
+  if (rxRadio.available()) {
+    while (rxRadio.available()) {
+      rxRadio.read(msg, 1);
+      int message = msg[0];
+      if (message == 111){
         delay(10);
+        Serial.println("Received this message: " + String(message));
         digitalWrite(LED1, HIGH);
       } else {
+        Serial.println("Received not sure what: " + String(message));
         digitalWrite(LED1, LOW);
       }
-      delay(10);
+      delay(SAMPLING_INTERVAL_MS);
       }
     }
   else {
