@@ -1,30 +1,54 @@
 Transmitter / Receiver project
 ==============================
 
-Some useful links with documentation and video / blog tutorials:
+This little projects aim at showing a minimum working example of transmitter / receiver interaction.
 
-```
-# Arduino Serial Port reference (Serial Peripheral Interface - SPI)
-https://www.arduino.cc/en/Reference/SPI
-# About the Nordic nRF24L01+ and the RF24 C++ library:
-https://arduino-info.wikispaces.com/Nrf24L01-2.4GHz-HowTo
-http://www.instructables.com/id/Wireless-Remote-Using-24-Ghz-NRF24L01-Simple-Tutor/?ALLSTEPS
-http://shanes.net/another-nrf24l01-sketch-string-sendreceive/
-# Documentation and examples for the RF24 library:
-http://tmrh20.github.io/RF24
-https://github.com/TMRh20/RF24
-# The datasheet of the radio module:
-http://www.nordicsemi.com/eng/Products/2.4GHz-RF/nRF24L01P
-# Getting Started with the nRF24L01 Transceiver
-https://www.youtube.com/watch?v=BjId_6tlYvE
-http://forcetronic.blogspot.co.uk/2015/02/getting-started-with-nrf24l01.html
-# 1-Day Project: Arduino and nRF24L01+ Data Transceiver 
-https://www.youtube.com/watch?v=wlhuO82IZjQ
-```
+## Hardware setup
+
+For the transmitter you need:
+ - 1 Arduino UNO board.
+ - 1 nRF24L01+ data transceiver module.
+ - 7 jumper wires male-female to connect the radio module to the board.
+ - 1 USB cable to connect the board to your computer.
+
+For the receiver you need:
+ - 1 Arduino UNO board.
+ - 1 nRF24L01+ data transceiver module.
+ - 7 jumper wires male-female to connect the radio module to the board.
+ - 1 LED (I used a green one).
+ - 2 jumper wires male-female to connect the LED to the board.
+ - 1 USB cable to connect the board to your computer.
+
+ In the following picture you can see the 2 boards. The transmitter is on the left, the receiver is on the right. Both of them have their transceiver attached to them using the jumper wires. (Ignore that gray jumper wire attached to the LED, that's there but not used, only the white and black wires are used for that LED).
+![tX/rX setup](./doc/2015-10-24 12.19.51.jpg)
+
+When the receiver finds some data sent by the transmitter then it switches on the green LED (cfr. the source code).
+You should see also the transmitter board blinking a LED when transmitting. I think this is because of the R24 library, but I did not check out their source code yet.
+![tX sending a message, rX receiving it](./doc/2015-10-24 12.19.53.jpg)
+
+### Pin wiring
+
+| Arduino pin | Wire colour | Transceiver signal | Transceiver pin  |
+|-------------|-------------|--------------------|------------------|
+| GND         | Brown       | GND                | 1                |
+| 3.3V        | Red         | VCC                | 2                |
+| 9           | Orange      | CE                 | 3                |
+| 10          | Yellow      | CSN                | 4                |
+| 13          | Green       | SCK                | 5                |
+| 11          | Blue        | MOSI               | 6                |
+| 12          | Violet      | MISO               | 7                |
+| (2)         | (Gray)      | (IRQ)              | (8)              |
+
+ - The `IRQ` pin is not currently used, but I've found it documented in many places so I've added it to the table.
+ - The green LED needs to be wired to the Arduino UNO board pins 3 (digital 3) and GND (ground).
+
+In the following schematic you can see the __receiver__ setup. Regarding the __transmitter__ setup it's almost the same, just ignore the part regarding the green LED.
+![The schematic](./doc/schematic-arduino-uno-nordic-nrf24l01_bb.png) 
+
 
 ## Software lifecycle
 
-I've decided to use `platformIO` rather than the Arduino IDE. It's a dependency management tool similar to maven for Java or npm for node.js, I found this useful because of the RF24 library that's a dependency for both the transmitter and the receiver modules. You can check their documentation at:
+I've decided to use `platformIO` rather than the Arduino IDE. It's a dependency management tool similar to maven for Java or npm for node.js, I found this useful because of the RF24 library is a dependency for both the transmitter and the receiver modules. You can check their documentation at:
 
 - Getting started guide: [http://docs.platformio.org/en/latest/quickstart.html](http://docs.platformio.org/en/latest/quickstart.html)
 - Dealing with libraries (dependencies): [http://docs.platformio.org/en/latest/projectconf.html#lib-install](http://docs.platformio.org/en/latest/projectconf.html#lib-install)
@@ -162,4 +186,30 @@ $ platformio run --target clean
 
 For more details check the platform.io run command [documentation](http://docs.platformio.org/en/latest/userguide/cmd_run.html).
 
+
+## Other resources
+
+Some useful links with documentation and video / blog tutorials:
+
+```
+# Arduino Serial Port reference (Serial Peripheral Interface - SPI)
+https://www.arduino.cc/en/Reference/SPI
+# About the Nordic nRF24L01+ and the RF24 C++ library:
+https://arduino-info.wikispaces.com/Nrf24L01-2.4GHz-HowTo
+http://www.instructables.com/id/Wireless-Remote-Using-24-Ghz-NRF24L01-Simple-Tutor/?ALLSTEPS
+http://shanes.net/another-nrf24l01-sketch-string-sendreceive/
+# Documentation and examples for the RF24 library:
+http://tmrh20.github.io/RF24
+https://github.com/TMRh20/RF24
+# The datasheet of the radio module:
+http://www.nordicsemi.com/eng/Products/2.4GHz-RF/nRF24L01P
+# Getting Started with the nRF24L01 Transceiver
+https://www.youtube.com/watch?v=BjId_6tlYvE
+http://forcetronic.blogspot.co.uk/2015/02/getting-started-with-nrf24l01.html
+# 1-Day Project: Arduino and nRF24L01+ Data Transceiver 
+https://www.youtube.com/watch?v=wlhuO82IZjQ
+# Fritzing schematics for the transceiver
+http://shanes.net/nrf24l01-fritzing-part
+http://shanes.net/wp-content/uploads/NRF24L01.zip
+```
 
