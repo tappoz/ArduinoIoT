@@ -1,7 +1,7 @@
 Transmitter / Receiver project
 ==============================
 
-This little projects aim at showing a minimum working example of transmitter / receiver interaction.
+This little project aims at showing a minimum working example of transmitter / receiver interaction.
 
 ## Hardware setup
 
@@ -19,7 +19,7 @@ For the receiver you need:
  - 2 jumper wires male-female to connect the LED to the board.
  - 1 USB cable to connect the board to your computer.
 
- In the following picture you can see the 2 boards. The transmitter is on the left, the receiver is on the right. Both of them have their transceiver attached to them using the jumper wires. (Ignore that gray jumper wire attached to the LED, that's there but not used, only the white and black wires are used for that LED).
+In the following picture you can see the 2 boards. The transmitter is on the left, the receiver is on the right. Both of them have their transceiver attached to them using the jumper wires. (Ignore that gray jumper wire attached to the LED, that's there but not used, only the white and black wires are used for that LED).
 ![tX/rX setup](./doc/2015-10-24 12.19.51.jpg)
 
 When the receiver finds some data sent by the transmitter then it switches on the green LED (cfr. the source code).
@@ -48,20 +48,21 @@ In the following schematic you can see the __receiver__ setup. Regarding the __t
 
 ## Software lifecycle
 
-I've decided to use `platformIO` rather than the Arduino IDE. It's a dependency management tool similar to maven for Java or npm for node.js, I found this useful because of the RF24 library is a dependency for both the transmitter and the receiver modules. You can check their documentation at:
+I've decided to use `platformIO` rather than the Arduino IDE. It's a dependency management tool similar to maven for Java or npm for node.js, I found this useful because the RF24 library is a dependency for both the transmitter and the receiver modules. You can check their documentation at:
 
 - Getting started guide: [http://docs.platformio.org/en/latest/quickstart.html](http://docs.platformio.org/en/latest/quickstart.html)
 - Dealing with libraries (dependencies): [http://docs.platformio.org/en/latest/projectconf.html#lib-install](http://docs.platformio.org/en/latest/projectconf.html#lib-install)
 
+To initialise a project using an Arduino UNO board:
 ```
-# to initialize the project using an Arduino UNO board
 $ platformio init --board=uno
-# this will install also the packages:
-# - toolchain-atmelavr 
-# - tool-avrdude package
-# - framework-arduinoavr
-# - tool-micronucleus package
 ```
+
+If you dont' have all the flashing tools installed yet, then `platformIO` installs also:
+ - toolchain-atmelavr 
+ - tool-avrdude package
+ - framework-arduinoavr
+ - tool-micronucleus package
 
 ### Checking the USB / serial ports
 
@@ -85,7 +86,7 @@ crw-rw---- 1 root dialout 188, 0 Oct 24 11:25 /dev/ttyUSB0
 crw-rw---- 1 root dialout 188, 1 Oct 24 11:28 /dev/ttyUSB1
 ```
 
-Using `platformio` you should get the information regarding the ports to use when uploading the firmware:
+Using `platformIO` you should get the information regarding the ports to use when uploading the firmware:
 
 ```
 $ platformio serialports list
@@ -116,7 +117,7 @@ $ platformio serialports monitor --port /dev/ttyUSB1
 
 ### Compiling the code, then uploading the firmware
 
-#### For the transmitter project:
+#### For the transmitter project
 
 ```
 $ platformio run
@@ -149,7 +150,7 @@ Transmitted: 111
 [...]
 ```
 
-#### For the receiver
+#### For the receiver project
 
 Compile the code and upload the firmware:
 ```
@@ -184,32 +185,23 @@ To clean the project folder from the compiled code:
 $ platformio run --target clean
 ```
 
-For more details check the platform.io run command [documentation](http://docs.platformio.org/en/latest/userguide/cmd_run.html).
+For more details check the `platformIO` run command [documentation](http://docs.platformio.org/en/latest/userguide/cmd_run.html).
 
 
 ## Other resources
 
 Some useful links with documentation and video / blog tutorials:
 
-```
-# Arduino Serial Port reference (Serial Peripheral Interface - SPI)
-https://www.arduino.cc/en/Reference/SPI
-# About the Nordic nRF24L01+ and the RF24 C++ library:
-https://arduino-info.wikispaces.com/Nrf24L01-2.4GHz-HowTo
-http://www.instructables.com/id/Wireless-Remote-Using-24-Ghz-NRF24L01-Simple-Tutor/?ALLSTEPS
-http://shanes.net/another-nrf24l01-sketch-string-sendreceive/
-# Documentation and examples for the RF24 library:
-http://tmrh20.github.io/RF24
-https://github.com/TMRh20/RF24
-# The datasheet of the radio module:
-http://www.nordicsemi.com/eng/Products/2.4GHz-RF/nRF24L01P
-# Getting Started with the nRF24L01 Transceiver
-https://www.youtube.com/watch?v=BjId_6tlYvE
-http://forcetronic.blogspot.co.uk/2015/02/getting-started-with-nrf24l01.html
-# 1-Day Project: Arduino and nRF24L01+ Data Transceiver 
-https://www.youtube.com/watch?v=wlhuO82IZjQ
-# Fritzing schematics for the transceiver
-http://shanes.net/nrf24l01-fritzing-part
-http://shanes.net/wp-content/uploads/NRF24L01.zip
-```
+| Arduino Serial Port reference (Serial Peripheral Interface - SPI) | https://www.arduino.cc/en/Reference/SPI |
+| About the Nordic nRF24L01+ and the RF24 C++ library:              | https://arduino-info.wikispaces.com/Nrf24L01-2.4GHz-HowTo |
+|                                                                   | http://www.instructables.com/id/Wireless-Remote-Using-24-Ghz-NRF24L01-Simple-Tutor/?ALLSTEPS |
+|                                                                   | http://shanes.net/another-nrf24l01-sketch-string-sendreceive |
+| Documentation and examples for the RF24 library:                  | http://tmrh20.github.io/RF24 |
+|                                                                   | https://github.com/TMRh20/RF24 |
+| The datasheet of the radio module                                 | http://www.nordicsemi.com/eng/Products/2.4GHz-RF/nRF24L01P |
+| Getting Started with the nRF24L01 Transceiver                     | https://www.youtube.com/watch?v=BjId_6tlYvE |
+|                                                                   | http://forcetronic.blogspot.co.uk/2015/02/getting-started-with-nrf24l01.html |
+| 1-Day Project: Arduino and nRF24L01+ Data Transceiver             | https://www.youtube.com/watch?v=wlhuO82IZjQ |
+| Fritzing schematics for the transceiver                           | http://shanes.net/nrf24l01-fritzing-part
+|                                                                   | http://shanes.net/wp-content/uploads/NRF24L01.zip |
 

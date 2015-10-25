@@ -23,7 +23,7 @@ void setup(void){
   rxRadio.openReadingPipe(1,pipe);
   rxRadio.startListening();
   pinMode(LED1, OUTPUT);
-  // print the configuration of the transmitter unit
+  // print the configuration of the receiver unit
   rxRadio.printDetails();
 }
 
