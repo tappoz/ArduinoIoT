@@ -31,7 +31,7 @@
 #define DATA_FORMAT (0x31)
 
 // milliseconds between reads
-int DEVICE_SAMPLING_MS = 200;
+int DEVICE_SAMPLING_MS = 1500;
 
 // writes value to address register on device
 void writeToRegister(byte address, byte value) {
@@ -49,8 +49,14 @@ void initAccelerometer() {
   writeToRegister(POWER_CTL, D4);
   // POWER_CTL D3 register high to set the module into measure mode
   writeToRegister(POWER_CTL, D3);
-  // DATA_FORMAT D0 register high to set the g range to +2/-2
-  writeToRegister(DATA_FORMAT, D0);
+
+  // D1 D0 Range     byte
+  //  0  0 +2/-2   g B00000000
+  //  0  1 +4/-4   g B00000001
+  //  1  0 +8/-8   g B00000010
+  //  1  1 +16/-16 g B00000011
+  // DATA_FORMAT D0 register to set the g range
+  writeToRegister(DATA_FORMAT, B00000001);
 }
 
 void setup(){

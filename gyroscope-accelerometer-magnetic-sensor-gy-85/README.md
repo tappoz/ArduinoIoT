@@ -1,40 +1,6 @@
 Inertial measurement unit (IMU) GY-85
 =====================================
 
-9DOF Gyroscope Accelerometer Magnetic Sensor GY-85 - ITG3205 ADXL345 HMC5883L
-Roll, Pitch e Yaw
-
-http://www.thaieasyelec.com/downloads/ESEN237/GY85_USG.pdf
-
-Arduino #13 - 3 axis Accelerometer ADXL 345 - Robots, Quadcopters, etc.
-https://www.youtube.com/watch?v=HM_Vj8weu4I
-http://eeenthusiast.com/arduino-i2c-adxl-345-robot/
-
-ADXL345 datasheet
-http://www.analog.com/media/en/technical-documentation/data-sheets/ADXL345.pdf
-
-Software multiwii con scheda Arduino Uno R3 e scheda Imu GY-85
-https://www.youtube.com/watch?v=7L01QxMiNCc
-http://www.giuseppealferi.com/sensore-inerziale-gy-85/
-
-
-http://www.instructables.com/id/Arduino-Tutorials-part-two-17-Tutorial-Pack/
-Arduino and GY-85 9DOF (Accelerometer ADXL345, Gyroscope ITG3200 and Magnetometer HMC5883) 
-https://www.youtube.com/watch?v=y4b-FcmOGV0
-http://www.himix.lt/arduino/arduino-and-gy-85-9dof-accelerometer-adxl345-gyroscope-itg3200-and-magnetometer-hmc5883-angle-information-comparison/
-
-
-Exploring EEG with STM32F4 and ADS1299 AHRS/Head tracking test with GY-85 
-http://eegexplore.blogspot.co.uk/2014/05/ahrshead-tracking-test-with-gy-85.html
-https://github.com/ptrbrtz/razor-9dof-ahrs/wiki/Tutorial
-
-
-GY-85 library
-https://github.com/sqrtmo/GY-85-arduino
-
-https://github.com/madc/GY-85
-
-
 ## Pin setup
 
 | GY-85  | Arduino UNO |
@@ -54,11 +20,21 @@ $ platformio serialports list
 Hardware ID: USB VID:PID=1a86:7523
 Description: QinHeng Electronics HL-340 USB-Serial adapter
 
-```
-
 $ platformio run --target upload --upload-port /dev/ttyUSB0
 
 $ platformio serialports monitor --port /dev/ttyUSB0
+```
 
+## Expected output data
 
+I think that with the g set to +4/-4 (`DATA_FORMAT` register) the maximum should be 125 with errors around +/- 25
+
+| Position            | X  | Y  | Z  |
+|---------------------|----|----|----|
+|Flat                 |  0 |  0 |  1 |
+|Antiflat             |  0 |  0 | -1 |
+|Side pins on flat    |  1 |  0 |  0 |
+|Side pins on antiflat| -1 |  0 |  0 |
+|VCC on flat          |  0 | -1 |  0 |
+|VCC on antiflat      |  0 |  1 |  0 |
 
