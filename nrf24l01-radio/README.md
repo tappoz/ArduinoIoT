@@ -192,6 +192,8 @@ For more details check the `platformIO` run command [documentation](http://docs.
 
 Some useful links with documentation and video / blog tutorials:
 
+| Details                                                           | Resource                                |
+|-------------------------------------------------------------------|-----------------------------------------|
 | Arduino Serial Port reference (Serial Peripheral Interface - SPI) | https://www.arduino.cc/en/Reference/SPI |
 | About the Nordic nRF24L01+ and the RF24 C++ library:              | https://arduino-info.wikispaces.com/Nrf24L01-2.4GHz-HowTo |
 |                                                                   | http://www.instructables.com/id/Wireless-Remote-Using-24-Ghz-NRF24L01-Simple-Tutor/?ALLSTEPS |
