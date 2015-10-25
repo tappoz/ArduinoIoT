@@ -1,3 +1,9 @@
+
+// Cfr.:
+// http://www.himix.lt/arduino/arduino-and-gy-85-9dof-accelerometer-adxl345-gyroscope-itg3200-and-magnetometer-hmc5883-angle-information-comparison/
+// http://eeenthusiast.com/arduino-i2c-adxl-345-robot/
+// https://github.com/sqrtmo/GY-85-arduino/blob/master/GY_85.cpp
+
 #include <Wire.h>
 #include <SPI.h>
 
@@ -25,10 +31,7 @@
 #define DATA_FORMAT (0x31)
 
 // milliseconds between reads
-int DEVICE_SAMPLING_MS = 3000;
-
-byte accelerometer_values[6];
-char accelerometer_output[512];
+int DEVICE_SAMPLING_MS = 200;
 
 // writes value to address register on device
 void writeToRegister(byte address, byte value) {
@@ -57,32 +60,39 @@ void setup(){
   initAccelerometer();
 }
 
-void loop(){
-  // the output data is twos complement, 
-  // with DATAx0 as the least significant byte and DATA x 1 as the most significant byte,
-  // where x represent X, Y,  o r  Z
-  int xyzregister = DATAX0;
-  int x, y, z;
+void readAccelerometer(int *outXYZ) {
 
   Wire.beginTransmission(ADXL345);
-  Wire.write(xyzregister);
+  // the output data is twos complement, 
+  // with DATAx0 as the least significant byte and DATAx1 as the most significant byte,
+  // where x represent X, Y,  or Z
+  Wire.write(DATAX0);
   Wire.endTransmission();
 
   Wire.beginTransmission(ADXL345);
   Wire.requestFrom(ADXL345, 6);
 
   int i = 0;
+  byte accelerometer_values[6];
   while(Wire.available()){
     accelerometer_values[i] = Wire.read();
-    Serial.println("Current '" + String(i) + "': " + String(accelerometer_values[i]));
+    // Serial.println("Current '" + String(i) + "': " + String(accelerometer_values[i]));
     i++;
   }
   Wire.endTransmission();
-  x = (((int)accelerometer_values[1]) << 8) | accelerometer_values[0]; 
-  y = (((int)accelerometer_values[3]) << 8) | accelerometer_values[2]; 
-  z = (((int)accelerometer_values[5]) << 8) | accelerometer_values[4]; 
-  sprintf(accelerometer_output, "Values: %d %d %d", x, y, z); 
-  Serial.println(accelerometer_output); 
+
+  outXYZ[0] = (((int)accelerometer_values[1]) << 8) | accelerometer_values[0]; 
+  outXYZ[1] = (((int)accelerometer_values[3]) << 8) | accelerometer_values[2]; 
+  outXYZ[2] = (((int)accelerometer_values[5]) << 8) | accelerometer_values[4];
+}
+
+void loop(){
+
+  char accelerometer_output[512];
+  int currentXYZ[3];
+  readAccelerometer(currentXYZ);
+  sprintf(accelerometer_output, "X=%d Y=%d Z=%d", currentXYZ[0], currentXYZ[1], currentXYZ[2]); 
+  Serial.print(accelerometer_output); 
   Serial.write(10); 
   delay(DEVICE_SAMPLING_MS); 
 }
