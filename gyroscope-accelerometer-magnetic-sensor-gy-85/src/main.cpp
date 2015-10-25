@@ -33,39 +33,6 @@
 // milliseconds between reads
 const int DEVICE_SAMPLING_MS = 250;
 
-// writes value to address register on device
-void writeToRegister(byte address, byte value) {
-  Wire.beginTransmission(ADXL345);
-  Wire.write(address);
-  Wire.write(value);
-  Wire.endTransmission();
-}
-
-void initAccelerometer() {
-  Wire.begin();
-  // clear the POWER_CTL register
-  writeToRegister(POWER_CTL, D0);
-  // POWER_CTL D4 register high to make sure it is not in sleep mode
-  writeToRegister(POWER_CTL, D4);
-  // POWER_CTL D3 register high to set the module into measure mode
-  writeToRegister(POWER_CTL, D3);
-
-  // D1 D0 Range     byte
-  //  0  0 +2/-2   g B00000000
-  //  0  1 +4/-4   g B00000001
-  //  1  0 +8/-8   g B00000010
-  //  1  1 +16/-16 g B00000011
-  // DATA_FORMAT D0 register to set the g range
-  writeToRegister(DATA_FORMAT, B00000001);
-}
-
-void setup(){
-  Serial.begin(9600);
-
-  // initialise the accelerometer
-  initAccelerometer();
-}
-
 // It reads numOfBytes (the expected length of the input/output array)
 // starting from registerAddress on device into the input/output _buffForDataBytes[]
 void readFromRegister(byte registerAddress, int numOfBytes, byte _buffForDataBytes[]) {
@@ -87,6 +54,78 @@ void readFromRegister(byte registerAddress, int numOfBytes, byte _buffForDataByt
     Serial.println("More data than expected: " + String(i));
   }
   Wire.endTransmission();
+}
+
+// writes value to address register on device
+void writeToRegister(byte address, byte value) {
+  Wire.beginTransmission(ADXL345);
+  Wire.write(address);
+  Wire.write(value);
+  Wire.endTransmission();
+}
+
+// Sets the range setting for g (gravity) changing the DATA_FORMAT register.
+// Possible input values are: 2, 4, 8, 16.
+// D1 D0 Range     byte
+//  0  0 +2/-2   g B00000000
+//  0  1 +4/-4   g B00000001
+//  1  0 +8/-8   g B00000010
+//  1  1 +16/-16 g B00000011
+void setGRange(int valueToSet) {
+  byte newSetting;
+  // byte currentSetting;
+  
+  switch (valueToSet) {
+    case 2:  
+      newSetting = B00000000; 
+      break;
+    case 4:  
+      newSetting = B00000001; 
+      break;
+    case 8:  
+      newSetting = B00000010; 
+      break;
+    case 16: 
+      newSetting = B00000011; 
+      break;
+    default: 
+      newSetting = B00000000;
+  }
+  // readFromRegister(DATA_FORMAT, 1, &currentSetting);
+  // newSetting |= (currentSetting & B11101100);
+  writeToRegister(DATA_FORMAT, newSetting);
+}
+
+void initAccelerometer() {
+  Wire.begin();
+  // clear the POWER_CTL register
+  writeToRegister(POWER_CTL, D0);
+  // POWER_CTL D4 register high to make sure it is not in sleep mode
+  writeToRegister(POWER_CTL, D4);
+  // POWER_CTL D3 register high to set the module into measure mode
+  writeToRegister(POWER_CTL, D3);
+  // DATA_FORMAT register to set the g range (gravity)
+  setGRange(4);
+}
+
+// Gets the g (gravity) range setting and return it into the input rangeSetting
+// it can be 2, 4, 8 or 16
+void getGRange(byte* rangeSetting) {
+  byte _b;
+  readFromRegister(DATA_FORMAT, 1, &_b);
+  *rangeSetting = _b & B00000011;
+}
+
+void setup(){
+  Serial.begin(9600);
+
+  // initialise the accelerometer
+  initAccelerometer();
+  byte currentRange;
+  getGRange(&currentRange);
+
+  // TODO: fix the following one...
+  Serial.println("Current range: " + currentRange);
 }
 
 void readAccelerometer(int *outXYZ) {
