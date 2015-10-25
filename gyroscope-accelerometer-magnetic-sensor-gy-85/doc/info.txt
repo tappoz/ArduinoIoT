@@ -30,3 +30,11 @@ GY-85 library
 https://github.com/sqrtmo/GY-85-arduino
 
 https://github.com/madc/GY-85
+
+
+Simple Guide on Accelorometer, Magnetometer, Digitial Gyro, GPS, Barometer Pros and Cons
+https://www.youtube.com/watch?v=7DELJMW2ZW0
+
+Testing my self made 9 DOF IMU (Accelerometer, Gyro, Magnetometer) 
+https://www.youtube.com/watch?v=phhljrqqI2o
+

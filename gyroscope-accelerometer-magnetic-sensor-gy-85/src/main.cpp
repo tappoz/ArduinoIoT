@@ -31,7 +31,7 @@
 #define DATA_FORMAT (0x31)
 
 // milliseconds between reads
-int DEVICE_SAMPLING_MS = 1500;
+const int DEVICE_SAMPLING_MS = 250;
 
 // writes value to address register on device
 void writeToRegister(byte address, byte value) {
@@ -66,39 +66,48 @@ void setup(){
   initAccelerometer();
 }
 
-void readAccelerometer(int *outXYZ) {
-
+// It reads numOfBytes (the expected length of the input/output array)
+// starting from registerAddress on device into the input/output _buffForDataBytes[]
+void readFromRegister(byte registerAddress, int numOfBytes, byte _buffForDataBytes[]) {
   Wire.beginTransmission(ADXL345);
+  Wire.write(registerAddress);
+  Wire.endTransmission();
+  
+  Wire.beginTransmission(ADXL345);
+  Wire.requestFrom(ADXL345, numOfBytes);
+  
+  int i = 0;
+  while (Wire.available()) { 
+    _buffForDataBytes[i] = Wire.read();
+    // Serial.println("Current '" + String(i) + "': " + String(_buffForDataBytes[i]));
+    i++;
+  }
+  if (i != numOfBytes) {
+    // TODO SOMETHING HERE!
+    Serial.println("More data than expected: " + String(i));
+  }
+  Wire.endTransmission();
+}
+
+void readAccelerometer(int *outXYZ) {
+  byte accelerometerValues[6];
   // the output data is twos complement, 
   // with DATAx0 as the least significant byte and DATAx1 as the most significant byte,
   // where x represent X, Y,  or Z
-  Wire.write(DATAX0);
-  Wire.endTransmission();
+  readFromRegister(DATAX0, 6, accelerometerValues);
 
-  Wire.beginTransmission(ADXL345);
-  Wire.requestFrom(ADXL345, 6);
-
-  int i = 0;
-  byte accelerometer_values[6];
-  while(Wire.available()){
-    accelerometer_values[i] = Wire.read();
-    // Serial.println("Current '" + String(i) + "': " + String(accelerometer_values[i]));
-    i++;
-  }
-  Wire.endTransmission();
-
-  outXYZ[0] = (((int)accelerometer_values[1]) << 8) | accelerometer_values[0]; 
-  outXYZ[1] = (((int)accelerometer_values[3]) << 8) | accelerometer_values[2]; 
-  outXYZ[2] = (((int)accelerometer_values[5]) << 8) | accelerometer_values[4];
+  outXYZ[0] = (((int)accelerometerValues[1]) << 8) | accelerometerValues[0]; 
+  outXYZ[1] = (((int)accelerometerValues[3]) << 8) | accelerometerValues[2]; 
+  outXYZ[2] = (((int)accelerometerValues[5]) << 8) | accelerometerValues[4];
 }
 
 void loop(){
 
-  char accelerometer_output[512];
+  char accOutput[512];
   int currentXYZ[3];
   readAccelerometer(currentXYZ);
-  sprintf(accelerometer_output, "X=%d Y=%d Z=%d", currentXYZ[0], currentXYZ[1], currentXYZ[2]); 
-  Serial.print(accelerometer_output); 
+  sprintf(accOutput, "X=%d Y=%d Z=%d", currentXYZ[0], currentXYZ[1], currentXYZ[2]); 
+  Serial.print(accOutput); 
   Serial.write(10); 
   delay(DEVICE_SAMPLING_MS); 
 }
