@@ -10,6 +10,11 @@ http://eeenthusiast.com/arduino-i2c-adxl-345-robot/
 ADXL345 datasheet
 http://www.analog.com/media/en/technical-documentation/data-sheets/ADXL345.pdf
 
+ITG3200 datasheet
+http://www.invensense.com/products/motion-tracking/3-axis/itg-3200/
+http://43zrtwysvxb2gf29r5o0athu.wpengine.netdna-cdn.com/wp-content/uploads/2015/02/ITG-3200-Datasheet.pdf
+http://43zrtwysvxb2gf29r5o0athu.wpengine.netdna-cdn.com/wp-content/uploads/2015/02/ITG-3200-Register-Map.pdf
+
 Software multiwii con scheda Arduino Uno R3 e scheda Imu GY-85
 https://www.youtube.com/watch?v=7L01QxMiNCc
 http://www.giuseppealferi.com/sensore-inerziale-gy-85/

@@ -20,6 +20,14 @@
 // http://www.analog.com/media/en/technical-documentation/data-sheets/ADXL345.pdf
 #define ADXL345 (0x53)
 
+// ITG3200 gyroscope
+// http://www.invensense.com/products/motion-tracking/3-axis/itg-3200/
+// http://43zrtwysvxb2gf29r5o0athu.wpengine.netdna-cdn.com/wp-content/uploads/2015/02/ITG-3200-Datasheet.pdf
+// http://43zrtwysvxb2gf29r5o0athu.wpengine.netdna-cdn.com/wp-content/uploads/2015/02/ITG-3200-Register-Map.pdf
+// AD0 1101000 I2C address
+#define ITG3200 (0x68)
+
+
 #define DATAX0 0x32 // X-Axis Data 0
 // #define DATAX1 0x33 // X-Axis Data 1
 // #define DATAY0 0x34 // Y-Axis Data 0
@@ -27,8 +35,21 @@
 // #define DATAZ0 0x36 // Z-Axis Data 0
 // #define DATAZ1 0x37 // Z-Axis Data 1
 
+// ADXL345
 #define POWER_CTL (0x2D)
 #define DATA_FORMAT (0x31)
+
+
+// ITG3200 (register map, page 6)
+// Power Management
+#define PWR_MGM (0x3E)
+// Sample Rate Divider
+#define SMPLRT_DIV (0x15)
+// Digital Low Pass Filter/ Full Scale range
+#define DLPF_FS (0x16)
+// Interrupt: Configuration
+#define INT_CFG (0x17)
+
 
 // milliseconds between reads
 const int DEVICE_SAMPLING_MS = 250;
@@ -57,8 +78,8 @@ void readFromRegister(byte registerAddress, int numOfBytes, byte _buffForDataByt
 }
 
 // writes value to address register on device
-void writeToRegister(byte address, byte value) {
-  Wire.beginTransmission(ADXL345);
+void writeToRegister(uint8_t i2cAddress, byte address, byte value) {
+  Wire.beginTransmission(i2cAddress);
   Wire.write(address);
   Wire.write(value);
   Wire.endTransmission();
@@ -93,17 +114,17 @@ void setGRange(int valueToSet) {
   }
   // readFromRegister(DATA_FORMAT, 1, &currentSetting);
   // newSetting |= (currentSetting & B11101100);
-  writeToRegister(DATA_FORMAT, newSetting);
+  writeToRegister(ADXL345, DATA_FORMAT, newSetting);
 }
 
 void initAccelerometer() {
   Wire.begin();
   // clear the POWER_CTL register
-  writeToRegister(POWER_CTL, D0);
+  writeToRegister(ADXL345, POWER_CTL, D0);
   // POWER_CTL D4 register high to make sure it is not in sleep mode
-  writeToRegister(POWER_CTL, D4);
+  writeToRegister(ADXL345, POWER_CTL, D4);
   // POWER_CTL D3 register high to set the module into measure mode
-  writeToRegister(POWER_CTL, D3);
+  writeToRegister(ADXL345, POWER_CTL, D3);
   // DATA_FORMAT register to set the g range (gravity)
   setGRange(4);
 }
