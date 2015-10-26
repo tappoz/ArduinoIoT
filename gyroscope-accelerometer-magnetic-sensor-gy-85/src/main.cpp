@@ -6,6 +6,9 @@
 
 #include <Wire.h>
 #include <SPI.h>
+#include <I2CHelper.h>
+
+I2CHelper i2CHelper;
 
 // register cells
 #define D0 1  // 2^0
@@ -77,14 +80,6 @@ void readFromRegister(byte registerAddress, int numOfBytes, byte _buffForDataByt
   Wire.endTransmission();
 }
 
-// writes value to address register on device
-void writeToRegister(uint8_t i2cAddress, byte address, byte value) {
-  Wire.beginTransmission(i2cAddress);
-  Wire.write(address);
-  Wire.write(value);
-  Wire.endTransmission();
-}
-
 // Sets the range setting for g (gravity) changing the DATA_FORMAT register.
 // Possible input values are: 2, 4, 8, 16.
 // D1 D0 Range     byte
@@ -114,17 +109,17 @@ void setGRange(int valueToSet) {
   }
   // readFromRegister(DATA_FORMAT, 1, &currentSetting);
   // newSetting |= (currentSetting & B11101100);
-  writeToRegister(ADXL345, DATA_FORMAT, newSetting);
+  i2CHelper.writeToRegister(ADXL345, DATA_FORMAT, newSetting);
 }
 
 void initAccelerometer() {
   Wire.begin();
   // clear the POWER_CTL register
-  writeToRegister(ADXL345, POWER_CTL, D0);
+  i2CHelper.writeToRegister(ADXL345, POWER_CTL, D0);
   // POWER_CTL D4 register high to make sure it is not in sleep mode
-  writeToRegister(ADXL345, POWER_CTL, D4);
+  i2CHelper.writeToRegister(ADXL345, POWER_CTL, D4);
   // POWER_CTL D3 register high to set the module into measure mode
-  writeToRegister(ADXL345, POWER_CTL, D3);
+  i2CHelper.writeToRegister(ADXL345, POWER_CTL, D3);
   // DATA_FORMAT register to set the g range (gravity)
   setGRange(4);
 }
