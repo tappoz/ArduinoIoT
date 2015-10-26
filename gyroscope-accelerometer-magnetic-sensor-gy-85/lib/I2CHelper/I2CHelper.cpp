@@ -3,13 +3,13 @@
 #include <SPI.h>
 #include "I2CHelper.h"
 
-I2CHelper::I2CHelper() {
-  // do nothing in the constructor
+I2CHelper::I2CHelper(uint8_t i2cAddress) {
+  _deviceI2CAddress = i2cAddress;
 }
 
 // writes value to address register on device at i2cAddress
-void I2CHelper::writeToRegister(uint8_t i2cAddress, byte address, byte value) {
-  Wire.beginTransmission(i2cAddress);
+void I2CHelper::writeToRegister(byte address, byte value) {
+  Wire.beginTransmission(_deviceI2CAddress);
   Wire.write(address);
   Wire.write(value);
   Wire.endTransmission();
@@ -17,13 +17,13 @@ void I2CHelper::writeToRegister(uint8_t i2cAddress, byte address, byte value) {
 
 // It reads numOfBytes (the expected length of the input/output array)
 // starting from registerAddress on device at i2cAddress into the input/output _buffForDataBytes[]
-void I2CHelper::readFromRegister(uint8_t i2cAddress, byte registerAddress, int numOfBytes, byte _buffForDataBytes[]) {
-  Wire.beginTransmission(i2cAddress);
+void I2CHelper::readFromRegister(byte registerAddress, int numOfBytes, byte _buffForDataBytes[]) {
+  Wire.beginTransmission(_deviceI2CAddress);
   Wire.write(registerAddress);
   Wire.endTransmission();
   
-  Wire.beginTransmission(i2cAddress);
-  Wire.requestFrom(i2cAddress, numOfBytes);
+  Wire.beginTransmission(_deviceI2CAddress);
+  Wire.requestFrom(_deviceI2CAddress, numOfBytes);
   
   int i = 0;
   while (Wire.available()) { 

@@ -5,9 +5,12 @@
 
 class I2CHelper {
   public: 
-    I2CHelper();
-    void writeToRegister(uint8_t i2cAddress, byte address, byte value);
-    void readFromRegister(uint8_t i2cAddress, byte registerAddress, int numOfBytes, byte _buffForDataBytes[]);
+    I2CHelper(uint8_t i2cAddress);
+    void writeToRegister(byte address, byte value);
+    void readFromRegister(byte registerAddress, int numOfBytes, byte _buffForDataBytes[]);
+
+  private:
+    uint8_t _deviceI2CAddress;
 };
 
 #endif

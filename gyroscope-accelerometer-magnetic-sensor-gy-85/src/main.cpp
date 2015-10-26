@@ -8,8 +8,6 @@
 #include <SPI.h>
 #include <I2CHelper.h>
 
-I2CHelper i2CHelper;
-
 // register cells
 #define D0 1  // 2^0
 #define D1 2  // 2^1
@@ -58,6 +56,8 @@ I2CHelper i2CHelper;
 const int DEVICE_SAMPLING_MS = 250;
 
 
+I2CHelper i2CADXL345(ADXL345);
+
 
 // Sets the range setting for g (gravity) changing the DATA_FORMAT register.
 // Possible input values are: 2, 4, 8, 16.
@@ -88,17 +88,17 @@ void setGRange(int valueToSet) {
   }
   // readFromRegister(DATA_FORMAT, 1, &currentSetting);
   // newSetting |= (currentSetting & B11101100);
-  i2CHelper.writeToRegister(ADXL345, DATA_FORMAT, newSetting);
+  i2CADXL345.writeToRegister(DATA_FORMAT, newSetting);
 }
 
 void initAccelerometer() {
   Wire.begin();
   // clear the POWER_CTL register
-  i2CHelper.writeToRegister(ADXL345, POWER_CTL, D0);
+  i2CADXL345.writeToRegister(POWER_CTL, D0);
   // POWER_CTL D4 register high to make sure it is not in sleep mode
-  i2CHelper.writeToRegister(ADXL345, POWER_CTL, D4);
+  i2CADXL345.writeToRegister(POWER_CTL, D4);
   // POWER_CTL D3 register high to set the module into measure mode
-  i2CHelper.writeToRegister(ADXL345, POWER_CTL, D3);
+  i2CADXL345.writeToRegister(POWER_CTL, D3);
   // DATA_FORMAT register to set the g range (gravity)
   setGRange(4);
 }
@@ -107,7 +107,7 @@ void initAccelerometer() {
 // it can be 2, 4, 8 or 16
 void getGRange(byte* rangeSetting) {
   byte _b;
-  i2CHelper.readFromRegister(ADXL345, DATA_FORMAT, 1, &_b);
+  i2CADXL345.readFromRegister(DATA_FORMAT, 1, &_b);
   *rangeSetting = _b & B00000011;
 }
 
@@ -128,7 +128,7 @@ void readAccelerometer(int *outXYZ) {
   // the output data is twos complement, 
   // with DATAx0 as the least significant byte and DATAx1 as the most significant byte,
   // where x represent X, Y,  or Z
-  i2CHelper.readFromRegister(ADXL345, DATAX0, 6, accelerometerValues);
+  i2CADXL345.readFromRegister(DATAX0, 6, accelerometerValues);
 
   outXYZ[0] = (((int)accelerometerValues[1]) << 8) | accelerometerValues[0]; 
   outXYZ[1] = (((int)accelerometerValues[3]) << 8) | accelerometerValues[2]; 
