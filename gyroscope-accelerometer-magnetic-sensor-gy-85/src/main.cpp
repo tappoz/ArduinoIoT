@@ -57,28 +57,7 @@ I2CHelper i2CHelper;
 // milliseconds between reads
 const int DEVICE_SAMPLING_MS = 250;
 
-// It reads numOfBytes (the expected length of the input/output array)
-// starting from registerAddress on device into the input/output _buffForDataBytes[]
-void readFromRegister(byte registerAddress, int numOfBytes, byte _buffForDataBytes[]) {
-  Wire.beginTransmission(ADXL345);
-  Wire.write(registerAddress);
-  Wire.endTransmission();
-  
-  Wire.beginTransmission(ADXL345);
-  Wire.requestFrom(ADXL345, numOfBytes);
-  
-  int i = 0;
-  while (Wire.available()) { 
-    _buffForDataBytes[i] = Wire.read();
-    // Serial.println("Current '" + String(i) + "': " + String(_buffForDataBytes[i]));
-    i++;
-  }
-  if (i != numOfBytes) {
-    // TODO SOMETHING HERE!
-    Serial.println("More data than expected: " + String(i));
-  }
-  Wire.endTransmission();
-}
+
 
 // Sets the range setting for g (gravity) changing the DATA_FORMAT register.
 // Possible input values are: 2, 4, 8, 16.
@@ -128,7 +107,7 @@ void initAccelerometer() {
 // it can be 2, 4, 8 or 16
 void getGRange(byte* rangeSetting) {
   byte _b;
-  readFromRegister(DATA_FORMAT, 1, &_b);
+  i2CHelper.readFromRegister(ADXL345, DATA_FORMAT, 1, &_b);
   *rangeSetting = _b & B00000011;
 }
 
@@ -149,7 +128,7 @@ void readAccelerometer(int *outXYZ) {
   // the output data is twos complement, 
   // with DATAx0 as the least significant byte and DATAx1 as the most significant byte,
   // where x represent X, Y,  or Z
-  readFromRegister(DATAX0, 6, accelerometerValues);
+  i2CHelper.readFromRegister(ADXL345, DATAX0, 6, accelerometerValues);
 
   outXYZ[0] = (((int)accelerometerValues[1]) << 8) | accelerometerValues[0]; 
   outXYZ[1] = (((int)accelerometerValues[3]) << 8) | accelerometerValues[2]; 
