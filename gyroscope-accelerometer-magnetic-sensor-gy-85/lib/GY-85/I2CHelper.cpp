@@ -4,6 +4,7 @@
 #include "I2CHelper.h"
 
 I2CHelper::I2CHelper(uint8_t i2cAddress) {
+  Wire.begin();
   _deviceI2CAddress = i2cAddress;
 }
 
