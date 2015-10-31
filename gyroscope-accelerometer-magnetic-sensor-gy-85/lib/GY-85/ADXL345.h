@@ -8,7 +8,9 @@ class ADXL345 {
   public: 
     ADXL345();
     void init();
+    void readAccelerometer(int *outXYZ);
     void setGRange(int valueToSet);
+    void getGRange(byte* rangeSetting);
     void writeToRegister(byte address, byte value);
     void readFromRegister(byte registerAddress, int numOfBytes, byte _buffForDataBytes[]);
 

@@ -39,6 +39,18 @@ void ADXL345::init() {
   this->setGRange(4);
 }
 
+void ADXL345::readAccelerometer(int *outXYZ) {
+  byte accelerometerValues[6];
+  // the output data is twos complement, 
+  // with DATAx0 as the least significant byte and DATAx1 as the most significant byte,
+  // where x represent X, Y,  or Z
+  _i2CHelper.readFromRegister(DATAX0, 6, accelerometerValues);
+
+  outXYZ[0] = (((int)accelerometerValues[1]) << 8) | accelerometerValues[0]; 
+  outXYZ[1] = (((int)accelerometerValues[3]) << 8) | accelerometerValues[2]; 
+  outXYZ[2] = (((int)accelerometerValues[5]) << 8) | accelerometerValues[4];
+}
+
 
 // Sets the range setting for g (gravity) changing the DATA_FORMAT register.
 // Possible input values are: 2, 4, 8, 16.
@@ -71,6 +83,14 @@ void ADXL345::setGRange(int valueToSet) {
   // newSetting |= (currentSetting & B11101100);
   
   _i2CHelper.writeToRegister(DATA_FORMAT, newSetting);
+}
+
+// Gets the g (gravity) range setting and return it into the input rangeSetting
+// it can be 2, 4, 8 or 16
+void ADXL345::getGRange(byte* rangeSetting) {
+  byte _b;
+  _i2CHelper.readFromRegister(DATA_FORMAT, 1, &_b);
+  *rangeSetting = _b & B00000011;
 }
 
 void ADXL345::writeToRegister(byte address, byte value) {
