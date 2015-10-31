@@ -42,7 +42,6 @@ void setup(){
   Serial.println("Current range: " + currentRange);
 }
 
-
 void loop(){
 
   char accOutput[512];
