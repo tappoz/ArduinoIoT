@@ -34,6 +34,7 @@ https://github.com/ptrbrtz/razor-9dof-ahrs/wiki/Tutorial
 GY-85 library
 https://github.com/sqrtmo/GY-85-arduino
 
+GY-85 theory and formulas
 https://github.com/madc/GY-85
 
 

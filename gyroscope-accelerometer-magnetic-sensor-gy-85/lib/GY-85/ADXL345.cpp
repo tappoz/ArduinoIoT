@@ -5,6 +5,10 @@
 
 // ADXL345 accelerometer I2C address as specified in data sheet
 // http://www.analog.com/media/en/technical-documentation/data-sheets/ADXL345.pdf
+// 
+// X-axis rotation: roll, 
+// Y-axis rotation: pitch, 
+// Z-axis rotation: yaw, (an 3-axis accelerometer can not measure it, as the force vector of gravity does not change during the movement).
 #define ADXL345_I2C (0x53)
 
 // register cells
@@ -49,6 +53,8 @@ void ADXL345::readAccelerometer(int *outXYZ) {
   outXYZ[0] = (((int)accelerometerValues[1]) << 8) | accelerometerValues[0]; 
   outXYZ[1] = (((int)accelerometerValues[3]) << 8) | accelerometerValues[2]; 
   outXYZ[2] = (((int)accelerometerValues[5]) << 8) | accelerometerValues[4];
+
+  delete[] accelerometerValues;
 }
 
 
