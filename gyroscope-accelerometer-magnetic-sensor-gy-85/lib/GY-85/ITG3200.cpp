@@ -58,7 +58,7 @@ void ITG3200::readGyroscope(int *outGyroXYZ) {
   outGyroXYZ[2] = (((int)gyroscopeValues[4]) << 8) | gyroscopeValues[5];
 }
 
-void ITG3200::readTemperature(float *temperature) {
+void ITG3200::readTemperature(float *tempCelsius) {
   byte _tempBuff[2];
 
   _i2CHelper.readFromRegister(TEMP_OUT_H,2,_tempBuff);
@@ -68,6 +68,6 @@ void ITG3200::readTemperature(float *temperature) {
   // * range: -30°C/+85°C
   // So the temperature in °C is: T = 35° + (value + 13200)/280;
   // the Fahrenheit conversion is: F=C*9/5+32
-  *temperature = 35 + ((_tempBuff[0] << 8 | _tempBuff[1]) + 13200) / 280.0;
+  *tempCelsius = 35 + ((_tempBuff[0] << 8 | _tempBuff[1]) + 13200) / 280.0;
 }
 
