@@ -48,17 +48,6 @@ void ITG3200::init() {
   // GyroCalibrate();
 }
 
-// void ITG3200::readGyroRaw( int *_GyroX, int *_GyroY, int *_GyroZ){
-//   readmem(GYRO_XOUT, 6, _buff);
-//   *_GyroX = _buff[0] << 8 | _buff[1];
-//   *_GyroY = _buff[2] << 8 | _buff[3]; 
-//   *_GyroZ = _buff[4] << 8 | _buff[5];
-// }
-
-// void ITG3200::readGyroRaw( int *_GyroXYZ){
-//   readGyroRaw(_GyroXYZ, _GyroXYZ+1, _GyroXYZ+2);
-// }
-
 void ITG3200::readGyroscope(int *outGyroXYZ) {
   byte gyroscopeValues[6];
   
@@ -68,3 +57,17 @@ void ITG3200::readGyroscope(int *outGyroXYZ) {
   outGyroXYZ[1] = (((int)gyroscopeValues[2]) << 8) | gyroscopeValues[3]; 
   outGyroXYZ[2] = (((int)gyroscopeValues[4]) << 8) | gyroscopeValues[5];
 }
+
+void ITG3200::readTemperature(float *temperature) {
+  byte _tempBuff[2];
+
+  _i2CHelper.readFromRegister(TEMP_OUT_H,2,_tempBuff);
+  // Celsius (cfr. the table in the datasheet at page 7)
+  // * temperature offset: -13200 (means 35°C)
+  // * sensitivity: 280 (every 1°C)
+  // * range: -30°C/+85°C
+  // So the temperature in °C is: T = 35° + (value + 13200)/280;
+  // the Fahrenheit conversion is: F=C*9/5+32
+  *temperature = 35 + ((_tempBuff[0] << 8 | _tempBuff[1]) + 13200) / 280.0;
+}
+

@@ -11,9 +11,7 @@ class ADXL345 {
     void readAccelerometer(int *outXYZ);
     void setGRange(int valueToSet);
     void getGRange(byte* rangeSetting);
-    // void writeToRegister(byte address, byte value);
-    // void readFromRegister(byte registerAddress, int numOfBytes, byte _buffForDataBytes[]);
-
+    
 	private:
     I2CHelper _i2CHelper;
 };

@@ -9,7 +9,8 @@ class ITG3200 {
     ITG3200();
     void init();
     void readGyroscope(int *outGyroXYZ);
-    
+    void readTemperature(float *temperature);
+
   private:
     I2CHelper _i2CHelper;
 };

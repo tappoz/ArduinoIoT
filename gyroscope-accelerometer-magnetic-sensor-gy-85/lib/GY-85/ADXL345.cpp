@@ -98,11 +98,3 @@ void ADXL345::getGRange(byte* rangeSetting) {
   _i2CHelper.readFromRegister(DATA_FORMAT, 1, &_b);
   *rangeSetting = _b & B00000011;
 }
-
-// void ADXL345::writeToRegister(byte address, byte value) {
-//   _i2CHelper.writeToRegister(address, value);
-// }
-
-// void ADXL345::readFromRegister(byte registerAddress, int numOfBytes, byte _buffForDataBytes[]) {
-//   _i2CHelper.readFromRegister(registerAddress, numOfBytes, _buffForDataBytes);
-// }

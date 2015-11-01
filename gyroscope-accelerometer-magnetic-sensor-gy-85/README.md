@@ -38,3 +38,10 @@ I think that with the g set to +4/-4 (`DATA_FORMAT` register) the maximum should
 |VCC on flat          |  0 | -1 |  0 |
 |VCC on antiflat      |  0 |  1 |  0 |
 
+
+To get information about the memory usage of the compiled file etc.:
+```
+.pioenvs/uno$ avr-size firmware.elf
+.pioenvs/uno$ readelf -a firmware.elf
+.pioenvs/uno$ avr-objdump -d firmware.elf
+```
