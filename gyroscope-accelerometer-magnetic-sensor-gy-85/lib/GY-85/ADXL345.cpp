@@ -54,7 +54,7 @@ void ADXL345::readAccelerometer(int *outXYZ) {
   outXYZ[1] = (((int)accelerometerValues[3]) << 8) | accelerometerValues[2]; 
   outXYZ[2] = (((int)accelerometerValues[5]) << 8) | accelerometerValues[4];
 
-  delete[] accelerometerValues;
+  // delete[] accelerometerValues;
 }
 
 
