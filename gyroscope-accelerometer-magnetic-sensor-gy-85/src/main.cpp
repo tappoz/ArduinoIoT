@@ -12,7 +12,7 @@
 #include <MemoryFree.h>
 
 // milliseconds between reads
-const int DEVICE_SAMPLING_MS = 600;
+const int DEVICE_SAMPLING_MS = 2000;
 
 ADXL345 accelerometer;
 ITG3200 gyroscope;
@@ -79,7 +79,7 @@ void loop(){
   Serial.write(10); 
 
   gyroscope.readGyroscope(currentXYZ);
-  sprintf(accOutput, "Gyroscope X=%d Y=%d Z=%d", currentXYZ[0], currentXYZ[1], currentXYZ[2]); 
+  sprintf(accOutput, "Gyroscope °/s X=%d Y=%d Z=%d", currentXYZ[0], currentXYZ[1], currentXYZ[2]); 
   Serial.print(accOutput); 
   Serial.write(10); 
 
