@@ -8,6 +8,7 @@
 #include "I2CHelper.h"
 #include "ADXL345.h"
 #include "ITG3200.h"
+#include "HMC5883L.h"
 #include <MemoryFree.h>
 
 // milliseconds between reads
@@ -15,6 +16,7 @@ const int DEVICE_SAMPLING_MS = 600;
 
 ADXL345 accelerometer;
 ITG3200 gyroscope;
+HMC5883L magnetometer;
 
 
 // source: http://forum.arduino.cc/index.php/topic,44216.0.html#13
@@ -64,6 +66,7 @@ void setup(){
   Serial.println("Current range: " + currentRange);
 
   gyroscope.init();
+  magnetometer.init();
 }
 
 void loop(){
@@ -86,6 +89,11 @@ void loop(){
   Serial.print("Temerature ");
   printDouble(temperature, 2);
   Serial.println("°C");
+
+  magnetometer.readMagnetometer(currentXYZ);
+  sprintf(accOutput, "Magnetometer X=%d Y=%d Z=%d", currentXYZ[0], currentXYZ[1], currentXYZ[2]); 
+  Serial.print(accOutput); 
+  Serial.write(10);
 
   Serial.print("Free memory: ");
   Serial.println(freeMemory());
