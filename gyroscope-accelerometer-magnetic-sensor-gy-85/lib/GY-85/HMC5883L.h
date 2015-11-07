@@ -8,8 +8,8 @@ class HMC5883L {
   public:
     HMC5883L();
     void init();
-    void readMagnetometer(int *outXYZ);
-
+    void readMagnetometer(float *outXYZ);
+    float convertToHorizontalYawHeading(float *outXYZ);
   
   private:
     I2CHelper _i2CHelper;

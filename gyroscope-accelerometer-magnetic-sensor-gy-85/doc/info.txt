@@ -15,6 +15,9 @@ http://www.invensense.com/products/motion-tracking/3-axis/itg-3200/
 http://43zrtwysvxb2gf29r5o0athu.wpengine.netdna-cdn.com/wp-content/uploads/2015/02/ITG-3200-Datasheet.pdf
 http://43zrtwysvxb2gf29r5o0athu.wpengine.netdna-cdn.com/wp-content/uploads/2015/02/ITG-3200-Register-Map.pdf
 
+Compass Arduino overview
+http://bluelemonlabs.blogspot.co.uk/2013/08/arduino-simple-compass-with-hmc5883l.html
+
 Software multiwii con scheda Arduino Uno R3 e scheda Imu GY-85
 https://www.youtube.com/watch?v=7L01QxMiNCc
 http://www.giuseppealferi.com/sensore-inerziale-gy-85/
