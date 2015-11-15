@@ -58,52 +58,53 @@ void setup(){
   Serial.begin(9600);
 
   // initialise the accelerometer
-  accelerometer.init();
-  byte currentRange;
-  accelerometer.getGRange(&currentRange);
+  // accelerometer.init();
+  // byte currentRange;
+  // accelerometer.getGRange(&currentRange);
 
   // TODO: fix the following one...
-  Serial.println("Current range: " + currentRange);
+  // Serial.println("Current range: " + currentRange);
 
-  gyroscope.init();
+  // gyroscope.init();
   magnetometer.init();
 }
 
 void loop(){
 
   // new line
-  Serial.write(10);
+  Serial.write('\n');
 
   char accOutput[512];
-  int currentXYZ[3];
-  accelerometer.readAccelerometer(currentXYZ);
-  sprintf(accOutput, "Accelerometer X=%d Y=%d Z=%d", currentXYZ[0], currentXYZ[1], currentXYZ[2]); 
-  Serial.println(accOutput);
 
-  delay(10);
+  // int currentXYZ[3];
+  // accelerometer.readAccelerometer(currentXYZ);
+  // sprintf(accOutput, "Accelerometer X=%d Y=%d Z=%d", currentXYZ[0], currentXYZ[1], currentXYZ[2]); 
+  // Serial.println(accOutput);
 
-  gyroscope.readGyroscope(currentXYZ);
-  sprintf(accOutput, "Gyroscope °/s X=%d Y=%d Z=%d", currentXYZ[0], currentXYZ[1], currentXYZ[2]); 
-  Serial.println(accOutput);
+  // delay(10);
 
-  delay(10);
+  // gyroscope.readGyroscope(currentXYZ);
+  // sprintf(accOutput, "Gyroscope °/s X=%d Y=%d Z=%d", currentXYZ[0], currentXYZ[1], currentXYZ[2]); 
+  // Serial.println(accOutput);
 
-  float temperature;
-  gyroscope.readTemperature(&temperature);
-  Serial.print("Temerature ");
-  printDouble(temperature, 2);
-  Serial.println("°C");
+  // delay(10);
+
+  // float temperature;
+  // gyroscope.readTemperature(&temperature);
+  // Serial.print("Temerature ");
+  // printDouble(temperature, 2);
+  // Serial.println("°C");
 
   delay(10);
 
   float compassXYZ[3];
   magnetometer.readMagnetometer(compassXYZ);
   float compassXYYaw = magnetometer.convertToHorizontalYawHeading(compassXYZ);
-  sprintf(accOutput, "Magnetometer X=%d Y=%d Z=%d >>> heading: %d°", compassXYZ[0], compassXYZ[1], compassXYZ[2], compassXYYaw); 
+  sprintf(accOutput, "Magnetometer X=%d Y=%d Z=%d >>> heading: %d°", compassXYZ[0], compassXYZ[1], compassXYZ[2], &compassXYYaw); 
   Serial.println(accOutput);
 
   delay(10);
-  
+
   // Serial.print("Free memory: ");
   // Serial.println(freeMemory());
 
