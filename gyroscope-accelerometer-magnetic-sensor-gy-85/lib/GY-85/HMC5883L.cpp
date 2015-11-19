@@ -82,6 +82,13 @@ float HMC5883L::convertToHorizontalYawHeading(float *outXYZ) {
   horizontalYaw = horizontalYaw * 180/PI;
 
   Serial.print("Just calculated "); Serial.println(horizontalYaw);
+
+  // char something[256];
+  // sprintf(something, "--> Pointer is: %d", *horizontalYaw);
+  // sprintf(something, "--> Value is: %d", &horizontalYaw);
+
+  // Serial.print("--> Pointer is: "); Serial.println(*horizontalYaw);
+  // Serial.print("--> Value is: "); Serial.println(&horizontalYaw);
   return horizontalYaw;
 }
 

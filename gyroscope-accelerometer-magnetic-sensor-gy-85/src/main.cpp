@@ -100,8 +100,8 @@ void loop(){
   float compassXYZ[3];
   magnetometer.readMagnetometer(compassXYZ);
   float compassXYYaw = magnetometer.convertToHorizontalYawHeading(compassXYZ);
-  sprintf(accOutput, "Magnetometer X=%d Y=%d Z=%d >>> heading: %d°", compassXYZ[0], compassXYZ[1], compassXYZ[2], &compassXYYaw); 
-  Serial.println(accOutput);
+
+  Serial.println(" >>> heading: " + String(compassXYYaw, 4) +"°");
 
   delay(10);
 
