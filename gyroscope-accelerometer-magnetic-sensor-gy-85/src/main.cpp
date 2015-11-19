@@ -9,6 +9,7 @@
 #include "ADXL345.h"
 #include "ITG3200.h"
 #include "HMC5883L.h"
+#include "GY85.h"
 #include <MemoryFree.h>
 
 // milliseconds between reads
@@ -17,6 +18,8 @@ const int DEVICE_SAMPLING_MS = 2000;
 ADXL345 accelerometer;
 ITG3200 gyroscope;
 HMC5883L magnetometer;
+
+GY85 inertialMeasurementUnit;
 
 
 // source: http://forum.arduino.cc/index.php/topic,44216.0.html#13
@@ -104,6 +107,11 @@ void loop(){
   Serial.println(" >>> heading: " + String(compassXYYaw, 4) +"°");
 
   delay(10);
+
+  String something = "";
+  inertialMeasurementUnit.heading(something);
+
+  Serial.println("SOMETHING! " + something);
 
   // Serial.print("Free memory: ");
   // Serial.println(freeMemory());
