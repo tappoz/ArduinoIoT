@@ -10,8 +10,8 @@ class GY85 {
 
   public:
     GY85();
-    // void init();
-    void heading(String &headingStr);
+    void init();
+    String heading();
   private:
     ADXL345 _accelerometer;
     ITG3200 _gyroscope;
