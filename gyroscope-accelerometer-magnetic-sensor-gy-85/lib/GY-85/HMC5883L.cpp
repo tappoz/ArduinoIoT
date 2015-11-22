@@ -64,6 +64,8 @@ void HMC5883L::readMagnetometer(float *outXYZ) {
   outXYZ[2] = ((((int)magnetometerValues[4]) << 8) | magnetometerValues[5]) / GAUSS_FOR_GAIN_VALUE * GAUS_TO_MICROTESLA; // * DIGITAL_RESOLUTION;
 }
 
+// The following conversion math is based on the Adafruit library
+// cfr.: https://github.com/adafruit/Adafruit_HMC5883_Unified
 float HMC5883L::convertToHorizontalYawHeading(float *outXYZ) {
   float horizontalYaw;
 
@@ -81,14 +83,7 @@ float HMC5883L::convertToHorizontalYawHeading(float *outXYZ) {
   // Convert to degrees °
   horizontalYaw = horizontalYaw * 180/PI;
 
-  Serial.print("Just calculated "); Serial.println(horizontalYaw);
-
-  // char something[256];
-  // sprintf(something, "--> Pointer is: %d", *horizontalYaw);
-  // sprintf(something, "--> Value is: %d", &horizontalYaw);
-
-  // Serial.print("--> Pointer is: "); Serial.println(*horizontalYaw);
-  // Serial.print("--> Value is: "); Serial.println(&horizontalYaw);
+  // Serial.print("Converted heading: "); Serial.println(horizontalYaw);
   return horizontalYaw;
 }
 
