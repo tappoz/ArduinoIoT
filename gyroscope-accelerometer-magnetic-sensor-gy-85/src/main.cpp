@@ -57,16 +57,13 @@ void loop(){
 
   // delay(10);
 
-  // float temperature;
-  // gyroscope.readTemperature(&temperature);
-  // Serial.print("Temerature ");
-  // printDouble(temperature, 2);
-  // Serial.println("°C");
+  String temperature = inertialMeasurementUnit.temperature();
+  Serial.println("Temperature: " + temperature + "°C");
 
   delay(10);
 
   String heading = inertialMeasurementUnit.heading();
-  Serial.println("Heading: " + heading);
+  Serial.println("Heading: " + heading + "°");
 
   delay(DEVICE_SAMPLING_MS);
 }

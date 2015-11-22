@@ -12,6 +12,7 @@ class GY85 {
     GY85();
     void init();
     String heading();
+    String temperature();
   private:
     ADXL345 _accelerometer;
     ITG3200 _gyroscope;
