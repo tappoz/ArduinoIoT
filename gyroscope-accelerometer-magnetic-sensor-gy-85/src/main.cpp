@@ -42,7 +42,7 @@ void loop(){
   // new line
   Serial.write('\n');
 
-  char accOutput[512];
+  // char accOutput[512];
 
   // int currentXYZ[3];
   // accelerometer.readAccelerometer(currentXYZ);
@@ -51,11 +51,10 @@ void loop(){
 
   // delay(10);
 
-  // gyroscope.readGyroscope(currentXYZ);
-  // sprintf(accOutput, "Gyroscope °/s X=%d Y=%d Z=%d", currentXYZ[0], currentXYZ[1], currentXYZ[2]); 
-  // Serial.println(accOutput);
+  String gyroscopeValues = inertialMeasurementUnit.gyroscope();
+  Serial.println("Gyroscope: " + gyroscopeValues);
 
-  // delay(10);
+  delay(10);
 
   String temperature = inertialMeasurementUnit.temperature();
   Serial.println("Temperature: " + temperature + "°C");

@@ -8,7 +8,7 @@ class ITG3200 {
   public:
     ITG3200();
     void init();
-    void readGyroscope(int *outGyroXYZ);
+    void readGyroscope(float *gyroXYZ);
     void readTemperature(float *temperature);
 
   private:

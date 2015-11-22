@@ -11,6 +11,19 @@ void GY85::init() {
   // delay(10);
 }
 
+const String DEVICE_SEPARATOR = "*/*";
+const String DATA_SEPARATOR = "*";
+
+// String formatData()
+// String GY85::getData(String *data, int len) {
+//   String result = "";
+//   for (int i = 0; i < len; i++) {
+//     result += data[i] + DEVICE_SEPARATOR;
+//     Serial.println(result);
+//   }
+//   return result.substring(0, result.length() - 1);
+// }
+
 String GY85::heading() {
   float compassXYZ[3];
   _magnetometer.readMagnetometer(compassXYZ);
@@ -25,3 +38,13 @@ String GY85::temperature() {
 
   return String(temperature, 4);
 }
+
+String GY85::gyroscope() {
+  float currentXYZ[3];
+  _gyroscope.readGyroscope(currentXYZ);
+
+  String xyzValues = String(currentXYZ[0], 4) + "*" + String(currentXYZ[1], 4) + "*" + String(currentXYZ[2], 4) + "*";
+
+  return xyzValues;
+}
+
