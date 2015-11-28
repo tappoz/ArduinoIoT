@@ -29,7 +29,6 @@ void I2CHelper::readFromRegister(byte registerAddress, int numOfBytes, byte _buf
   int i = 0;
   while (Wire.available()) { 
     _buffForDataBytes[i] = Wire.read();
-    // Serial.println("Current '" + String(i) + "': " + String(_buffForDataBytes[i]));
     i++;
   }
   if (i != numOfBytes) {
