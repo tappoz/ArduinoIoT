@@ -11,10 +11,13 @@ class GY85 {
   public:
     GY85();
     void init();
+    // partial information
     String heading();
     String temperature();
     String gyroscope();
     String accelerometer();
+    // record with all the information
+    String getFormattedDataRow();
   private:
     ADXL345 _accelerometer;
     ITG3200 _gyroscope;

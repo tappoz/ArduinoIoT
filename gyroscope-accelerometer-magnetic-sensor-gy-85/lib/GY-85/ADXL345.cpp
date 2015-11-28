@@ -59,11 +59,6 @@ int ADXL345::mapToRegisterGValue(int gHalfRange) {
       registerGValue = 0x00;
   }
 
-  Serial.print("gHalfRange: ");
-  Serial.print(String(gHalfRange));
-  Serial.print(" registerGValue: ");
-  Serial.println(String(registerGValue));
-
   return registerGValue;
 }
 
@@ -75,20 +70,22 @@ void ADXL345::init() {
   // POWER_CTL D3 register high to set the module into measure mode
   _i2CHelper.writeToRegister(POWER_CTL, D3);
 
-  // gravity G: +/- 4g range
+  // according to the datasheet the available G ranges are:
+  // +/- 2G
+  // +/- 4G
+  // +/- 8G
+  // +/- 16G  
+  // setting the gravity G range to: +/-4G
   gHalfRangeToBeUsed = 4;
 
   // the sensor maps the signal into 10 bits
-  // if we set the measurment +/-4g (gravity) range then the gravity 
+  // if we set the measurment +/-4G (gravity) range then the gravity 
   // in Gs (unit of measurement for gravity) is:
   // Gs = value from the sensor * (G-range/(2^10)) 
   // in other words having a range of 4g+4g=8g:
   // Gs = value from the sensor * (8/1024)
   sensorGScalingFactor = (float)(gHalfRangeToBeUsed + gHalfRangeToBeUsed) / (float) 1024;
-  Serial.print("Scale factor: ");
-  Serial.println(String(sensorGScalingFactor, 4));
-
-
+  
   // DATA_FORMAT register to set the g range (gravity) into +/- 4g range
   _i2CHelper.writeToRegister(DATA_FORMAT, mapToRegisterGValue(gHalfRangeToBeUsed));
 }

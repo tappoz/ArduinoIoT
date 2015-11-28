@@ -27,26 +27,8 @@ void setup(){
 
 void loop(){
 
-  // new line
-  Serial.write('\n');
-
-  String accelerometerValues = inertialMeasurementUnit.accelerometer();
-  Serial.println("Accelerometer: " + accelerometerValues);
-
-  delay(10);
-
-  String gyroscopeValues = inertialMeasurementUnit.gyroscope();
-  Serial.println("Gyroscope: " + gyroscopeValues);
-
-  delay(10);
-
-  String temperature = inertialMeasurementUnit.temperature();
-  Serial.println("Temperature: " + temperature + "°C");
-
-  delay(10);
-
-  String heading = inertialMeasurementUnit.heading();
-  Serial.println("Heading: " + heading + "°");
+  String dataRow = inertialMeasurementUnit.getFormattedDataRow();
+  Serial.println(dataRow);
 
   delay(DEVICE_SAMPLING_MS);
 }
