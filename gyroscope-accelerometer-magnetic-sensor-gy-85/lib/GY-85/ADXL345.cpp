@@ -30,7 +30,42 @@
 #define POWER_CTL (0x2D)
 #define DATA_FORMAT (0x31)
 
+int gHalfRangeToBeUsed;
+float sensorGScalingFactor;
+
 ADXL345::ADXL345():_i2CHelper(ADXL345_I2C){}
+
+// As per datasheet, the gravity G is like:
+//   2 meaning half of the range +/- 2g
+//   4 meaning half of the range +/- 4g
+// and so on...
+int ADXL345::mapToRegisterGValue(int gHalfRange) {
+  int registerGValue;
+  
+  switch (gHalfRange) {
+    case 2:  
+      registerGValue = 0x00; 
+      break;
+    case 4:  
+      registerGValue = 0x01; 
+      break;
+    case 8:  
+      registerGValue = 0x10; 
+      break;
+    case 16: 
+      registerGValue = 0x11; 
+      break;
+    default: 
+      registerGValue = 0x00;
+  }
+
+  Serial.print("gHalfRange: ");
+  Serial.print(String(gHalfRange));
+  Serial.print(" registerGValue: ");
+  Serial.println(String(registerGValue));
+
+  return registerGValue;
+}
 
 void ADXL345::init() {
   // clear the POWER_CTL register
@@ -39,19 +74,42 @@ void ADXL345::init() {
   _i2CHelper.writeToRegister(POWER_CTL, D4);
   // POWER_CTL D3 register high to set the module into measure mode
   _i2CHelper.writeToRegister(POWER_CTL, D3);
+
+  // gravity G: +/- 4g range
+  gHalfRangeToBeUsed = 4;
+
+  // the sensor maps the signal into 10 bits
+  // if we set the measurment +/-4g (gravity) range then the gravity 
+  // in Gs (unit of measurement for gravity) is:
+  // Gs = value from the sensor * (G-range/(2^10)) 
+  // in other words having a range of 4g+4g=8g:
+  // Gs = value from the sensor * (8/1024)
+  sensorGScalingFactor = (float)(gHalfRangeToBeUsed + gHalfRangeToBeUsed) / (float) 1024;
+  Serial.print("Scale factor: ");
+  Serial.println(String(sensorGScalingFactor, 4));
+
+
   // DATA_FORMAT register to set the g range (gravity) into +/- 4g range
-  // this->setGRange(4);
-  _i2CHelper.writeToRegister(DATA_FORMAT, 0x01);
+  _i2CHelper.writeToRegister(DATA_FORMAT, mapToRegisterGValue(gHalfRangeToBeUsed));
 }
 
-void ADXL345::readAccelerometer(int *outXYZ) {
+void ADXL345::readRawAccelerometer(int *rawAccXYZ) {
   byte accelerometerValues[6];
   // the output data is twos complement, 
   // with DATAx0 as the least significant byte and DATAx1 as the most significant byte,
   // where x represent X, Y,  or Z
   _i2CHelper.readFromRegister(DATAX0, 6, accelerometerValues);
 
-  outXYZ[0] = ((int)accelerometerValues[1]) << 8 | (int)accelerometerValues[0]; 
-  outXYZ[1] = ((int)accelerometerValues[3]) << 8 | (int)accelerometerValues[2]; 
-  outXYZ[2] = ((int)accelerometerValues[5]) << 8 | (int)accelerometerValues[4];
+  rawAccXYZ[0] = ((int)accelerometerValues[1]) << 8 | (int)accelerometerValues[0]; 
+  rawAccXYZ[1] = ((int)accelerometerValues[3]) << 8 | (int)accelerometerValues[2]; 
+  rawAccXYZ[2] = ((int)accelerometerValues[5]) << 8 | (int)accelerometerValues[4];
+}
+
+void ADXL345::readAccelerometer(float *outXYZ) {
+  int rawAccXYZ[3];
+  readRawAccelerometer(rawAccXYZ);
+
+  outXYZ[0] = (float) rawAccXYZ[0] * sensorGScalingFactor;
+  outXYZ[1] = (float) rawAccXYZ[1] * sensorGScalingFactor;
+  outXYZ[2] = (float) rawAccXYZ[2] * sensorGScalingFactor;
 }

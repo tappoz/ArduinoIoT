@@ -48,3 +48,5 @@ https://www.youtube.com/watch?v=7DELJMW2ZW0
 Testing my self made 9 DOF IMU (Accelerometer, Gyro, Magnetometer) 
 https://www.youtube.com/watch?v=phhljrqqI2o
 
+ADXL345 Quick start
+https://www.sparkfun.com/tutorials/240

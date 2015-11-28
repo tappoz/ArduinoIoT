@@ -41,11 +41,11 @@ String GY85::gyroscope() {
 }
 
 String GY85::accelerometer() {
-  int accXYZ[3];
+  float accXYZ[3];
   _accelerometer.readAccelerometer(accXYZ);
 
   String xyzValues = String();
-  xyzValues = String(accXYZ[0]) + "*" + String(accXYZ[1]) + "*" + String(accXYZ[2]) + "*";
+  xyzValues = String(accXYZ[0], 4) + "*" + String(accXYZ[1], 4) + "*" + String(accXYZ[2], 4) + "*";
   
   return xyzValues;
 }
