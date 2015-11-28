@@ -27,6 +27,8 @@
 #define GYRO_ZOUT_H (0x21)
 
 // cfr the Sensor Specifications table on page 8
+// this needs to be used to map the sensor value
+// to degrees/second °/s
 const float SENSITIVITY_SCALE_FACTOR = 14.375;
 const int DELAY_BETWEEN_READS_MS = 10;
 const int NUM_OF_SAMPLES_FOR_CALIBRATION = 10;
@@ -73,21 +75,31 @@ void ITG3200::init() {
   calibrate();
 }
 
+void ITG3200::readRawGyroscope(int *rawGyroXYZ) {
+
+  byte gyroscopeValues[6];
+  
+  _i2CHelper.readFromRegister(GYRO_XOUT_H, 6, gyroscopeValues);
+
+  rawGyroXYZ[0] = (((int)gyroscopeValues[0]) << 8 | gyroscopeValues[1]) + calibrationOffset[0];
+  rawGyroXYZ[1] = (((int)gyroscopeValues[2]) << 8 | gyroscopeValues[3]) + calibrationOffset[1];
+  rawGyroXYZ[2] = (((int)gyroscopeValues[4]) << 8 | gyroscopeValues[5]) + calibrationOffset[2];
+}
+
 // It returns the CALIBRATED readings from the sensor
 // it divides them by the sensitivity scale factor
 // to return the values in degree per second (°/s).
 // The resulting values are expected in between ±2000°/s
 void ITG3200::readGyroscope(float *gyroXYZ) {
-  byte gyroscopeValues[6];
-  
-  _i2CHelper.readFromRegister(GYRO_XOUT_H, 6, gyroscopeValues);
+  int rawGyroXYZ[3];
+  readRawGyroscope(rawGyroXYZ);
 
   // roll on the X axis
-  gyroXYZ[0] = (((((int)gyroscopeValues[0]) << 8) | gyroscopeValues[1]) + calibrationOffset[0]) / SENSITIVITY_SCALE_FACTOR;
+  gyroXYZ[0] = (float) rawGyroXYZ[0] / SENSITIVITY_SCALE_FACTOR;
   // pitch on the Y axis
-  gyroXYZ[1] = (((((int)gyroscopeValues[2]) << 8) | gyroscopeValues[3]) + calibrationOffset[1]) / SENSITIVITY_SCALE_FACTOR;
+  gyroXYZ[1] = (float) rawGyroXYZ[1] / SENSITIVITY_SCALE_FACTOR;
   // yaw on the Z axis
-  gyroXYZ[2] = (((((int)gyroscopeValues[4]) << 8) | gyroscopeValues[5]) + calibrationOffset[2]) / SENSITIVITY_SCALE_FACTOR;
+  gyroXYZ[2] = (float) rawGyroXYZ[2] / SENSITIVITY_SCALE_FACTOR;
 }
 
 void ITG3200::readTemperature(float *tempCelsius) {

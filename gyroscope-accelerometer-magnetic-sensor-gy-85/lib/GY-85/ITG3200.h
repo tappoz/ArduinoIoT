@@ -14,6 +14,7 @@ class ITG3200 {
   private:
     I2CHelper _i2CHelper;
     float calibrationOffset[3];
+    void readRawGyroscope(int *gyroXYZ);
     void calibrate();
 };
 
