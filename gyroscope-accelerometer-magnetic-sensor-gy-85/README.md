@@ -27,17 +27,16 @@ $ platformio serialports monitor --port /dev/ttyUSB0
 
 ## Expected output data
 
-I think that with the g set to +4/-4 (`DATA_FORMAT` register) the maximum should be 125 with errors around +/- 25
+Run the following command with the board connected to the USB port:
+```
+$ platformio run --target upload --upload-port /dev/ttyUSB0
+```
+Then you should see the "CSV" like records show up in the terminal:
+```
+$ platformio serialports monitor --port /dev/ttyUSB0
+```
 
-| Position            | X  | Y  | Z  |
-|---------------------|----|----|----|
-|Flat                 |  0 |  0 |  1 |
-|Antiflat             |  0 |  0 | -1 |
-|Side pins on flat    |  1 |  0 |  0 |
-|Side pins on antiflat| -1 |  0 |  0 |
-|VCC on flat          |  0 | -1 |  0 |
-|VCC on antiflat      |  0 |  1 |  0 |
-
+## Useful commands
 
 To get information about the memory usage of the compiled file etc.:
 ```
