@@ -12,13 +12,13 @@
 #define ADXL345_I2C (0x53)
 
 // register cells
-#define D0 1  // 2^0
-#define D1 2  // 2^1
-#define D2 4  // 2^2
-#define D3 8  // 2^3
-#define D4 16 // 2^4
-#define D5 32 // 2^5
-#define D6 64 // 2^6
+#define D0 1  // 2^0 0x01
+#define D1 2  // 2^1 0x02
+#define D2 4  // 2^2 0x04
+#define D3 8  // 2^3 0x08
+#define D4 16 // 2^4 0x10
+#define D5 32 // 2^5 0x20
+#define D6 64 // 2^6 0x40
 
 #define DATAX0 0x32 // X-Axis Data 0
 // #define DATAX1 0x33 // X-Axis Data 1
@@ -39,8 +39,9 @@ void ADXL345::init() {
   _i2CHelper.writeToRegister(POWER_CTL, D4);
   // POWER_CTL D3 register high to set the module into measure mode
   _i2CHelper.writeToRegister(POWER_CTL, D3);
-  // DATA_FORMAT register to set the g range (gravity)
-  this->setGRange(4);
+  // DATA_FORMAT register to set the g range (gravity) into +/- 4g range
+  // this->setGRange(4);
+  _i2CHelper.writeToRegister(DATA_FORMAT, 0x01);
 }
 
 void ADXL345::readAccelerometer(int *outXYZ) {
@@ -50,51 +51,7 @@ void ADXL345::readAccelerometer(int *outXYZ) {
   // where x represent X, Y,  or Z
   _i2CHelper.readFromRegister(DATAX0, 6, accelerometerValues);
 
-  outXYZ[0] = (((int)accelerometerValues[1]) << 8) | accelerometerValues[0]; 
-  outXYZ[1] = (((int)accelerometerValues[3]) << 8) | accelerometerValues[2]; 
-  outXYZ[2] = (((int)accelerometerValues[5]) << 8) | accelerometerValues[4];
-
-  // delete[] accelerometerValues;
-}
-
-
-// Sets the range setting for g (gravity) changing the DATA_FORMAT register.
-// Possible input values are: 2, 4, 8, 16.
-// D1 D0 Range     byte
-//  0  0 +2/-2   g B00000000
-//  0  1 +4/-4   g B00000001
-//  1  0 +8/-8   g B00000010
-//  1  1 +16/-16 g B00000011
-void ADXL345::setGRange(int valueToSet) {
-  byte newSetting;
-  // byte currentSetting;
-  
-  switch (valueToSet) {
-    case 2:  
-      newSetting = B00000000; 
-      break;
-    case 4:  
-      newSetting = B00000001; 
-      break;
-    case 8:  
-      newSetting = B00000010; 
-      break;
-    case 16: 
-      newSetting = B00000011; 
-      break;
-    default: 
-      newSetting = B00000000;
-  }
-  // readFromRegister(DATA_FORMAT, 1, &currentSetting);
-  // newSetting |= (currentSetting & B11101100);
-  
-  _i2CHelper.writeToRegister(DATA_FORMAT, newSetting);
-}
-
-// Gets the g (gravity) range setting and return it into the input rangeSetting
-// it can be 2, 4, 8 or 16
-void ADXL345::getGRange(byte* rangeSetting) {
-  byte _b;
-  _i2CHelper.readFromRegister(DATA_FORMAT, 1, &_b);
-  *rangeSetting = _b & B00000011;
+  outXYZ[0] = ((int)accelerometerValues[1]) << 8 | (int)accelerometerValues[0]; 
+  outXYZ[1] = ((int)accelerometerValues[3]) << 8 | (int)accelerometerValues[2]; 
+  outXYZ[2] = ((int)accelerometerValues[5]) << 8 | (int)accelerometerValues[4];
 }

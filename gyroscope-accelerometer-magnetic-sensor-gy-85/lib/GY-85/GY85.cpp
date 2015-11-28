@@ -5,24 +5,16 @@
 GY85::GY85() {}
 
 void GY85::init() {
-  _magnetometer.init();
+  _accelerometer.init();
   delay(10);
   _gyroscope.init();
-  // delay(10);
+  delay(10);
+  _magnetometer.init();
+  delay(10);
 }
 
 const String DEVICE_SEPARATOR = "*/*";
 const String DATA_SEPARATOR = "*";
-
-// String formatData()
-// String GY85::getData(String *data, int len) {
-//   String result = "";
-//   for (int i = 0; i < len; i++) {
-//     result += data[i] + DEVICE_SEPARATOR;
-//     Serial.println(result);
-//   }
-//   return result.substring(0, result.length() - 1);
-// }
 
 String GY85::heading() {
   float compassXYZ[3];
@@ -48,3 +40,12 @@ String GY85::gyroscope() {
   return xyzValues;
 }
 
+String GY85::accelerometer() {
+  int accXYZ[3];
+  _accelerometer.readAccelerometer(accXYZ);
+
+  String xyzValues = String();
+  xyzValues = String(accXYZ[0]) + "*" + String(accXYZ[1]) + "*" + String(accXYZ[2]) + "*";
+  
+  return xyzValues;
+}

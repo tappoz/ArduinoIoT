@@ -10,7 +10,6 @@
 #include "ITG3200.h"
 #include "HMC5883L.h"
 #include "GY85.h"
-#include <MemoryFree.h>
 
 // milliseconds between reads
 const int DEVICE_SAMPLING_MS = 2000;
@@ -23,17 +22,6 @@ GY85 inertialMeasurementUnit;
 
 void setup(){
   Serial.begin(9600);
-
-  // initialise the accelerometer
-  // accelerometer.init();
-  // byte currentRange;
-  // accelerometer.getGRange(&currentRange);
-
-  // TODO: fix the following one...
-  // Serial.println("Current range: " + currentRange);
-
-  // gyroscope.init();
-
   inertialMeasurementUnit.init();
 }
 
@@ -42,14 +30,10 @@ void loop(){
   // new line
   Serial.write('\n');
 
-  // char accOutput[512];
+  String accelerometerValues = inertialMeasurementUnit.accelerometer();
+  Serial.println("Accelerometer: " + accelerometerValues);
 
-  // int currentXYZ[3];
-  // accelerometer.readAccelerometer(currentXYZ);
-  // sprintf(accOutput, "Accelerometer X=%d Y=%d Z=%d", currentXYZ[0], currentXYZ[1], currentXYZ[2]); 
-  // Serial.println(accOutput);
-
-  // delay(10);
+  delay(10);
 
   String gyroscopeValues = inertialMeasurementUnit.gyroscope();
   Serial.println("Gyroscope: " + gyroscopeValues);

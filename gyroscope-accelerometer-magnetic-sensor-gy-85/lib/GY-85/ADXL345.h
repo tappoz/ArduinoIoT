@@ -9,8 +9,8 @@ class ADXL345 {
     ADXL345();
     void init();
     void readAccelerometer(int *outXYZ);
-    void setGRange(int valueToSet);
-    void getGRange(byte* rangeSetting);
+    // void setGRange(int valueToSet);
+    // void getGRange(byte* rangeSetting);
     
 	private:
     I2CHelper _i2CHelper;
