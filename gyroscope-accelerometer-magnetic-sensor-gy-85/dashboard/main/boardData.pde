@@ -1,5 +1,5 @@
 String usbPort = "";
-Serial boardWithIMU;
+private Serial boardWithIMU;
 
 String getUSBPort() {
    for(String port : Serial.list()) {

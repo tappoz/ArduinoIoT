@@ -9,8 +9,11 @@ void setup() {
 void draw() {
   
   resetScreen();
-  text("Test on: " + usbPort, 50, 50);
+  text("Listening to: " + usbPort, 50, 50);
   
-  text(getDataRow(), 100, 100);
-  
+  String currentDataRow = getDataRow();
+  DataRow currentDataRowObj = processDataRow(currentDataRow);
+  drawDataRow(currentDataRowObj);
+
+  delay(1000);
 }
