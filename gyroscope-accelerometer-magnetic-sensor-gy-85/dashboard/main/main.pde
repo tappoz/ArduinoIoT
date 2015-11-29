@@ -5,7 +5,6 @@ void setup() {
   setupBoardData();
 }
 
-
 void draw() {
   
   resetScreen();
