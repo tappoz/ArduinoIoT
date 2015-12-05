@@ -14,13 +14,13 @@ initial_heading = 180.0
 board_simulator = sched.scheduler(time.time, time.sleep)
 
 
-# port = '/dev/ttyUSB0'
-# usb_serial_com = serial.Serial(port,9600,timeout=5)
-# usb_serial_com.open()
+port = '/tmp/ttyTX'
+usb_serial_com = serial.Serial(port,9600,timeout=5)
+# dont open the serial port! it is opened by `socat`! usb_serial_com.open()
 
-# def print_to_serial(data_row):
-#   usb_serial_com.flush()
-#   usb_serial_com.write(data_row)
+def print_to_serial(data_row):
+  # usb_serial_com.flush()
+  usb_serial_com.write(data_row)
 
 
 def concatenate_chunks(input_scheduler, previous_temp, previous_heading):
@@ -31,7 +31,7 @@ def concatenate_chunks(input_scheduler, previous_temp, previous_heading):
 
     current_data_row = data_separator.join((current_accelerometer_triple, current_gyroscope_triple, "%.4f" % current_temp, "%.4f" % current_heading))
     print current_data_row
-    # print_to_serial(current_data_row)
+    print_to_serial(current_data_row + '\n')
 
     input_scheduler.enter(delay, priority, concatenate_chunks, (input_scheduler, current_temp, current_heading,))
 
