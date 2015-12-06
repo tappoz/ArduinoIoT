@@ -1,6 +1,7 @@
 String usbPort = "";
 private Serial boardWithIMU;
 
+String simulatorSerialPort = "/tmp/ttyRX";
 String getUSBPort() {
    for(String port : Serial.list()) {
      if (port.contains("USB")) {
@@ -8,8 +9,8 @@ String getUSBPort() {
        return port;
      }
    }
-   println(":( no USB here... Returning the simulator port");
-   return "/tmp/ttyRX";
+   println(":( no USB here... Returning the simulator port: " + simulatorSerialPort);
+   return simulatorSerialPort;
 }
 
 void setupBoardData() {

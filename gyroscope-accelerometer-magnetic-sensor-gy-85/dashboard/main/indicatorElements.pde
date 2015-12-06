@@ -21,3 +21,33 @@ void drawCompass(int x, int y, float heading, PImage plate) {
   text((int)heading+" deg", x+130, y+265);
   textAlign(LEFT);
 }
+
+// offset to remove the initial value of the milliseconds 
+// when printing the x axis values of the temperature graph
+float x_offset;
+
+// https://people.cs.pitt.edu/~jwenskovitch/processing.html
+// http://www.openprocessing.org/sketch/223971
+void initTemperatureGraph(float input_x_offset) {
+  // 46, 209, 2 -> 2E, D1, 02
+  color lineForeground = #2ED102;
+  stroke(lineForeground);
+  strokeWeight(4);
+  x_offset = input_x_offset;
+}
+
+void drawTemperature(float x_previous, float x_current, float y_previous, float y_current) {
+  // map(value, actual_start1, actual_stop1, target_start2, target_stop2)
+  float x_prev = map((x_previous - x_offset), 0, 60000, 0, 60);
+  float x_curr = map((x_current - x_offset), 0, 60000, 0, 60);
+
+  float window_x_prev = 50 + x_prev;
+  float window_x_curr = 50 + x_curr;
+  float window_y_prev = 300 + map(y_previous, -10, 30, 0, 40);
+  float window_y_curr = 300 + map(y_current, -10, 30, 0, 40);
+
+  println("x_prev " + window_x_prev + " y_prev " + window_y_prev + " x_curr " + window_x_curr + " y_curr " + window_y_curr);
+
+  line(window_x_prev, window_y_prev, window_x_curr, window_y_curr);
+}
+

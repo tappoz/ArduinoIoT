@@ -7,6 +7,7 @@ static final String FIELD_SEPARATOR = "#";
 
 DataRow processDataRow(String dataRowStr) {
   DataRow dataRow = new DataRow();
+  dataRow.millis = millis();
   try {
     mapDataRow(dataRowStr, dataRow);
   } catch (Exception e) {
