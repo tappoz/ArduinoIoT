@@ -8,8 +8,8 @@ String getUSBPort() {
        return port;
      }
    }
-   println(":( no USB here...");
-   return "NO PORT";
+   println(":( no USB here... Returning the simulator port");
+   return "/tmp/ttyRX";
 }
 
 void setupBoardData() {

@@ -25,6 +25,9 @@ To check what is being written on the serial port use `screen` like:
 $ screen /tmp/ttyRX 9600
 ```
 
+When the Processing dashboard does not find any real board printing data on a USB serial port, then it assumes
+there's a simulator running and printing data on `/tmp/ttyRX`.
+
 
 # Build
 
