@@ -62,3 +62,15 @@ To see the decompiled content of a `.o` file:
 ```
 $ avr-objdump -S .pioenvs/uno/GY-85/ITG3200.o
 ```
+
+## Dashboard
+
+There's also a dashboard (written in Processing) that shows some of the measurement coming from the sensors and printed on the serial port.
+Check out this [dashboard folder (it contains a README)](./dashboard).
+The __dashboard__ folder contains also a board simulator written in python 2.7 to simulate the sensor measurements printed on the serial port.
+
+## Board setup
+
+The following is an example of board setup: you can see the Arduino UNO board and the GY-85 suite of sensors running live and printing data on the serial port through the USB connector.
+
+![Board setup](./doc/2015-12-19 19.49.14.jpg)
