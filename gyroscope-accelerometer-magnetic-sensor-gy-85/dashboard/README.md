@@ -15,7 +15,7 @@ The serial port creation/mapping is done with `socat` e.g.:
 ```
 $ socat -d -d pty,raw,echo=0,link=/tmp/ttyRX pty,raw,echo=0,link=/tmp/ttyTX
 ```
-Where `/tmp/ttTX` is the port where the simulator writes data regarding the Arduino UNO board and `/tmp/ttRX` is the port where the Processing dashboard is reading the data.
+Where `/tmp/ttTX` is the __virtual serial port__ where the simulator writes data regarding the Arduino UNO board and `/tmp/ttRX` is the port where the Processing dashboard is reading the data.
 
 Run the simulator from the command line like:
 ```
@@ -45,3 +45,5 @@ In the picture below you can see:
 
 I should be organising this dashboard with more details, but for now this is it.
 ![Dashboard](./doc/2015-12-19_19:37:59_main.png)
+
+The compass has been copied from the great work done by jarzebski on his [repository](https://github.com/jarzebski/Arduino-HMC5883L).

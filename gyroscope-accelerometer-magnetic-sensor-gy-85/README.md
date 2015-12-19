@@ -13,6 +13,8 @@ Inertial measurement unit (IMU) GY-85
 
 ## Software lifecycle
 
+I am using linux and to me the board shows up on the device file `/dev/ttyUSB0`.
+
 ```
 $ platformio serialports list
 /dev/ttyUSB0
@@ -67,7 +69,7 @@ $ avr-objdump -S .pioenvs/uno/GY-85/ITG3200.o
 
 There's also a dashboard (written in Processing) that shows some of the measurement coming from the sensors and printed on the serial port.
 Check out this [dashboard folder (it contains a README)](./dashboard).
-The __dashboard__ folder contains also a board simulator written in python 2.7 to simulate the sensor measurements printed on the serial port.
+The __dashboard__ folder contains also a board simulator written in python 2.7 to simulate the sensor measurements printed on the serial port using a virtual serial port.
 
 ## Board setup
 
