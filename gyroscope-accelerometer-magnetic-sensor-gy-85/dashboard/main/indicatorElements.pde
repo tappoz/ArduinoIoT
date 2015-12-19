@@ -1,4 +1,5 @@
 
+
 // TODO work on this:
 // https://github.com/jarzebski/Arduino-HMC5883L/blob/master/Processing/HMC5883L_processing/HMC5883L_processing.pde
 // TODO make the heading adjustments as in the previous repository
@@ -44,7 +45,31 @@ void initTemperatureGraph(float input_x_offset) {
 
 // TODO keep track of the previous N pairs, then loop on them with the current values
 
+// TODO http://pastebin.com/kSrU3nVH
+// TODO https://www.youtube.com/watch?v=IpIf_qB5-K8
+
+float[] lastTemperatures = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+float[] lastTimestamps = {65.0, 65.0, 65.0, 65.0, 65.0, 65.0, 65.0, 65.0, 65.0, 65.0};
+
+float sumArray(float[] array, int index) {
+  float sum = 0.0;
+  for (int i = 0; i <= index; i++) {
+    sum += array[i];
+  }
+  return sum;
+}
+
+float[] shiftLeftArray(float[] array) {
+  float firstElement = array[0];
+  for (int i = 1 ; i < (array.length-1) ; i++) {
+    array[i] = array[i+1];
+  }
+  array[array.length - 1] = firstElement;
+  return array;
+}
+
 void drawTemperature(float x_previous, float x_current, float y_previous, float y_current) {
+
   // map(value, actual_start1, actual_stop1, target_start2, target_stop2)
   float x_prev = map((x_previous - x_offset), 0, 60000, 0, 60);
   float x_curr = map((x_current - x_offset), 0, 60000, 0, 60);
@@ -58,6 +83,18 @@ void drawTemperature(float x_previous, float x_current, float y_previous, float 
 
   println("x_prev " + window_x_prev + " y_prev " + window_y_prev + " x_curr " + window_x_curr + " y_curr " + window_y_curr);
 
-  line(window_x_prev, window_y_prev, window_x_curr, window_y_curr);
+  lastTemperatures = shiftLeftArray(lastTemperatures);
+  lastTimestamps = shiftLeftArray(lastTimestamps);
+
+  // update the last N elements of valid data
+  lastTemperatures[lastTemperatures.length - 1] = window_y_curr;
+  lastTimestamps[lastTimestamps.length - 1] = window_x_curr;
+  
+  for(int i=1; i<lastTemperatures.length; i++) {
+    // stroke(220, 75, lastTemperatures[i]);
+    point(sumArray(lastTimestamps, i), lastTemperatures[i]);
+  }
+
+  // line(window_x_prev, window_y_prev, window_x_curr, window_y_curr);
 }
 
