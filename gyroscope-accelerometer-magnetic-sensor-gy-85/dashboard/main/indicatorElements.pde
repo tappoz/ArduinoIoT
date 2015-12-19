@@ -68,20 +68,12 @@ float[] shiftLeftArray(float[] array) {
   return array;
 }
 
-void drawTemperature(float x_previous, float x_current, float y_previous, float y_current) {
+void drawTemperature(float x_current, float y_current) {
 
   // map(value, actual_start1, actual_stop1, target_start2, target_stop2)
-  float x_prev = map((x_previous - x_offset), 0, 60000, 0, 60);
   float x_curr = map((x_current - x_offset), 0, 60000, 0, 60);
-
-  float window_x_prev = 50 + x_prev;
   float window_x_curr = 50 + x_curr;
-  // float window_y_prev = 300 + map(y_previous, -10, 30, 0, 100);
-  // float window_y_curr = 300 + map(y_current, -10, 30, 0, 100);
-  float window_y_prev = 300 + map(y_previous, 0, 20, 0, 100);
   float window_y_curr = 300 + map(y_current, 0, 20, 0, 100);
-
-  println("x_prev " + window_x_prev + " y_prev " + window_y_prev + " x_curr " + window_x_curr + " y_curr " + window_y_curr);
 
   lastTemperatures = shiftLeftArray(lastTemperatures);
   lastTimestamps = shiftLeftArray(lastTimestamps);
@@ -91,10 +83,7 @@ void drawTemperature(float x_previous, float x_current, float y_previous, float 
   lastTimestamps[lastTimestamps.length - 1] = window_x_curr;
   
   for(int i=1; i<lastTemperatures.length; i++) {
-    // stroke(220, 75, lastTemperatures[i]);
     point(sumArray(lastTimestamps, i), lastTemperatures[i]);
   }
-
-  // line(window_x_prev, window_y_prev, window_x_curr, window_y_curr);
 }
 
